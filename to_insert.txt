@@ -1,0 +1,16 @@
+db.contacts.find().Count()+1
+
+
+
+//symptom
+[{"symptom_id":"1", "name":"Abdominal Pain"},{"symptom_id":"2", "name":"Constipation"},{ "symptom_id":"3", "name":"Infection"}]
+
+//hospital bed
+[{"bed_no":"0001","ward_no":"241","floor":"1st Floor","status":"Vacant"},{"bed_no":"0002","ward_no":"532","floor":"2nd Floor","status":"Vacant"},{"bed_no":"0003","ward_no":"331","floor":"3rd Floor","status":"Vacant"},{"bed_no":"0004","ward_no":"675","floor":"4th Floor","status":"Vacant"}]
+
+//question
+[{"symptom_id":"1","question":"Rate the pain","type":"rate"},{"symptom_id":"1","question":"Last Meal","type":"text"},{"symptom_id":"1","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"1","question":"Acidic","type":"y/n"},
+{"symptom_id":"2","question":"When your symptoms started and how long they’ve been going on?","type":"text"},{"symptom_id":"2","question":"Having pain in your stomach?","type":"y/n"},{"symptom_id":"2","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"2","question":"How much you’ve been eating or drinking?","type":"rate"},{"symptom_id":"2","question":" Have you recently gained or lost weight?","type":"y/n"},{"symptom_id":"2","question":" Have you recently gained or lost weight","type":"y/n"},{"symptom_id":"2","question":"Do you have to strain to poop?","type":"y/n"}]
+
+//test list
+[{"test_id":"1","name":"Fecalysis","price":"500","description":"A fecalysis is a series of tests done on a stool (feces) sample to help diagnose certain conditions affecting the digestive tract. These conditions can include infection (such as from parasites, viruses, or bacteria), poor nutrient absorption, or cancer."},{"test_id":"2","name":"Urinalysis","price":"500","description":"A test that is done in order to analyze urine. Because toxins and excess fluid are removed from the body in urine, analysis of urine can provide important health clues. Urinalysis can be used to detect certain diseases, such as diabetes, gout, and other metabolic disorders, as well as kidney disease. It can also be used to uncover evidence of drug abuse. Accurate urinalysis may require a 'clean catch' of urine. Before a person gives a urine sample, he or she should drink plenty of fluids and wait until 1 or 2 seconds into the flow of urine before catching the urine in the receptacle. For some tests it is important to get the first urine of the day, which contains the highest concentration of toxins and other substances to be analyzed. For other tests, a 24-hour collection of urine may be needed."}]
