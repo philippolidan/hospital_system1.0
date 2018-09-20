@@ -14,6 +14,7 @@ include('assets/includes/db_connect.php');
 
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="assets/css/color.css" />
+	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/smart_wizard.css" />
 	<link rel="stylesheet" type="text/css" href="assets/css/smart_wizard_theme_arrows.min.css" />
 	<link rel="stylesheet" type="text/css" href="assets/css/smart_wizard_theme_circles.min.css" />
