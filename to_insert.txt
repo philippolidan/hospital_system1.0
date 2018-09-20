@@ -3,14 +3,110 @@ db.contacts.find().Count()+1
 
 
 //symptom
-[{"symptom_id":"1", "name":"Abdominal Pain"},{"symptom_id":"2", "name":"Constipation"},{ "symptom_id":"3", "name":"Infection"}]
+db.symptom.insert([{"symptom_id":"1", "name":"Abdominal Pain"},{"symptom_id":"2", "name":"Constipation"},{ "symptom_id":"3", "name":"Infection"}])
 
 //hospital bed
-[{"bed_no":"0001","ward_no":"241","floor":"1st Floor","status":"Vacant"},{"bed_no":"0002","ward_no":"532","floor":"2nd Floor","status":"Vacant"},{"bed_no":"0003","ward_no":"331","floor":"3rd Floor","status":"Vacant"},{"bed_no":"0004","ward_no":"675","floor":"4th Floor","status":"Vacant"}]
+db.bed_list.insert([{"bed_no":"0001","ward_no":"241","floor":"1st Floor","status":"Vacant"},{"bed_no":"0002","ward_no":"532","floor":"2nd Floor","status":"Vacant"},{"bed_no":"0003","ward_no":"331","floor":"3rd Floor","status":"Vacant"},{"bed_no":"0004","ward_no":"675","floor":"4th Floor","status":"Vacant"}])
 
 //question
-[{"symptom_id":"1","question":"Rate the pain","type":"rate"},{"symptom_id":"1","question":"Last Meal","type":"text"},{"symptom_id":"1","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"1","question":"Acidic","type":"y/n"},
-{"symptom_id":"2","question":"When your symptoms started and how long they’ve been going on?","type":"text"},{"symptom_id":"2","question":"Having pain in your stomach?","type":"y/n"},{"symptom_id":"2","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"2","question":"How much you’ve been eating or drinking?","type":"rate"},{"symptom_id":"2","question":" Have you recently gained or lost weight?","type":"y/n"},{"symptom_id":"2","question":" Have you recently gained or lost weight","type":"y/n"},{"symptom_id":"2","question":"Do you have to strain to poop?","type":"y/n"}]
+db.question_list.insert([{"symptom_id":"1","question":"Rate the pain","type":"rate"},{"symptom_id":"1","question":"Last Meal","type":"text"},{"symptom_id":"1","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"1","question":"Acidic","type":"y/n"},
+{"symptom_id":"2","question":"When your symptoms started and how long they’ve been going on?","type":"text"},{"symptom_id":"2","question":"Having pain in your stomach?","type":"y/n"},{"symptom_id":"2","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"2","question":"How much you’ve been eating or drinking?","type":"rate"},{"symptom_id":"2","question":" Have you recently gained or lost weight?","type":"y/n"},{"symptom_id":"2","question":" Have you recently gained or lost weight","type":"y/n"},{"symptom_id":"2","question":"Do you have to strain to poop?","type":"y/n"}])
 
 //test list
-[{"test_id":"1","name":"Fecalysis","price":"500","description":"A fecalysis is a series of tests done on a stool (feces) sample to help diagnose certain conditions affecting the digestive tract. These conditions can include infection (such as from parasites, viruses, or bacteria), poor nutrient absorption, or cancer."},{"test_id":"2","name":"Urinalysis","price":"500","description":"A test that is done in order to analyze urine. Because toxins and excess fluid are removed from the body in urine, analysis of urine can provide important health clues. Urinalysis can be used to detect certain diseases, such as diabetes, gout, and other metabolic disorders, as well as kidney disease. It can also be used to uncover evidence of drug abuse. Accurate urinalysis may require a 'clean catch' of urine. Before a person gives a urine sample, he or she should drink plenty of fluids and wait until 1 or 2 seconds into the flow of urine before catching the urine in the receptacle. For some tests it is important to get the first urine of the day, which contains the highest concentration of toxins and other substances to be analyzed. For other tests, a 24-hour collection of urine may be needed."}]
+db.test_list.insert([{"test_id":"1","name":"Fecalysis","price":"500","description":"A fecalysis is a series of tests done on a stool (feces) sample to help diagnose certain conditions affecting the digestive tract. These conditions can include infection (such as from parasites, viruses, or bacteria), poor nutrient absorption, or cancer."},{"test_id":"2","name":"Urinalysis","price":"500","description":"A test that is done in order to analyze urine. Because toxins and excess fluid are removed from the body in urine, analysis of urine can provide important health clues. Urinalysis can be used to detect certain diseases, such as diabetes, gout, and other metabolic disorders, as well as kidney disease. It can also be used to uncover evidence of drug abuse. Accurate urinalysis may require a 'clean catch' of urine. Before a person gives a urine sample, he or she should drink plenty of fluids and wait until 1 or 2 seconds into the flow of urine before catching the urine in the receptacle. For some tests it is important to get the first urine of the day, which contains the highest concentration of toxins and other substances to be analyzed. For other tests, a 24-hour collection of urine may be needed."}])
+
+////roles
+db.roles.insert([
+{
+"id" : "1",
+"name" : "admin",
+"desc" : "Administrator"
+},
+{
+"id" : "2",
+"name" : "superuser",
+"desc" : "Superuser"
+},
+{
+"id" : "3",
+"name" : "patient",
+"desc" : "Patient"
+},
+{
+"id" : "4",
+"name" : "doctor",
+"desc" : "Doctor"
+}
+{
+"id" : "5",
+"name" : "patient",
+"desc" : "Patient"
+}
+])
+
+//users
+db.users.insert([{
+"id" : "1",
+"email" : "dherrick.cuevas@gmail.com",
+"password" : "3c2a6eb64cc629de76c419308830c53bbe63b874f6a526f7cd784182b33a2f5f3daaab47b5bde5868b82e4dd3b521d147a7542292b689acdf60122b97e99523f",
+"salt" : "ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413",
+"role_id" : "4",
+"active" : "1",
+"created_date" : "09/19/2018"
+},
+{
+"id" : "2",
+"email" : "philip.polidan@gmail.com",
+"password" : "3c2a6eb64cc629de76c419308830c53bbe63b874f6a526f7cd784182b33a2f5f3daaab47b5bde5868b82e4dd3b521d147a7542292b689acdf60122b97e99523f",
+"salt" : "ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413",
+"role_id" : "4",
+"active" : "1",
+"created_date" : "09/19/2018"
+},
+{
+"id" : "3",
+"email" : "ian.historillo@gmail.com",
+"password" : "3c2a6eb64cc629de76c419308830c53bbe63b874f6a526f7cd784182b33a2f5f3daaab47b5bde5868b82e4dd3b521d147a7542292b689acdf60122b97e99523f",
+"salt" : "ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413",
+"role_id" : "4",
+"active" : "1",
+"created_date" : "09/19/2018"
+}])
+
+
+//users information
+db.users_information([
+{
+"id" : "1",
+"lname" : "Cuevas",
+"fname" : "Mark Dherrick",
+"mname" : "Piamonte",
+"mobile" : "09264873400",
+"telephone" : "",
+"birthdate" : "07/23/1997",
+"gender" : "Male",
+"address" : "Block 2 Lot 2, Bagong Santa Rosa Village 1, Barangay Pooc, City of Santa Rosa, Laguna"
+},
+{
+"id" : "2",
+"lname" : "Polidan",
+"fname" : "Christian Philip",
+"mname" : "Mendoza",
+"mobile" : "09364455284",
+"telephone" : "",
+"birthdate" : "05/25/1998",
+"gender" : "Male",
+"address" : "Amar Village, Barangay Balibago, City of Santa Rosa, Laguna"
+},
+{
+"id" : "3",
+"lname" : "Historillo",
+"fname" : "Christian Ian",
+"mname" : "",
+"mobile" : "09072852456",
+"telephone" : "",
+"birthdate" : "",
+"gender" : "Male",
+"address" : "Phase 3, Block 7, Lot 12, FVR GMA, Cavite"
+}
+])
