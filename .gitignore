@@ -1,6 +1,3 @@
 /vendor
 composer.json
 composer.lock
-assets/addons
-assets/css
-assets/img
