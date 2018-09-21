@@ -22,62 +22,313 @@ $db = new Database;
 					<div id="step-1" class="">
 						<form id="form-step-1">
 
-						<input type="hidden" name="to-d-r" value="0">
-						<input type="text" class="d-none" name="patient_oid">
-						<div class="col-lg-12 mt-4 mb-4">
+							<input type="hidden" name="to-d-r" value="0">
+							<input type="text" class="d-none" name="patient_oid">
+							<div class="col-lg-12 mt-4 mb-4">
 
-							<div class="d-flex">
-								<div>
-									<h3>Patient Registration</h3>
+								<div class="d-flex">
+									<div>
+										<h3>Patient Registration</h3>
+									</div>
+
+									<div class="ml-auto" style="text-align: right">
+										<h3 id="code_status" class="" style="width: 200px; height: 30px;"></h3>
+									</div>
 								</div>
 
-								<div class="ml-auto" style="text-align: right">
-									<h3 id="code_status" class="" style="width: 200px; height: 30px;"></h3>
+								<hr>
+
+								<div class="row">
+
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+										<h6><strong></strong></h6>
+
+										<div class="row">
+
+											<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+												<div class="form-group" style="text-align: left">
+													<label>Patient No.</label>
+													<h6><strong><span id="patient_no"><?php echo $db->getPatientNumber()?></span></strong></h6>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+												<div class="form-group">
+													<label>Emergency Code</label>
+													<select name="emergency_code" class="select2 to-d" style="width: 100%;" id="ecode">
+														<option disabled value selected>Select Emergency Code</option>
+														<optgroup label="Color Codes">
+															<option value="amber" id="amber">Amber Alert</option>
+															<option value="blue" id="blue">Blue</option>
+															<option value="grey" >Grey</option>
+															<option value="orange">Orange</option>
+															<option value="pink">Pink</option>
+															<option value="red" >Red</option>
+															<option value="silver">Silver</option>
+														</optgroup>
+
+														<optgroup label="Other Codes">
+															<option value="clear">Code Clear</option>
+															<option value="external">External Triage</option>
+															<option value="internal">Internal Triage</option>
+															<option value="rapid">Rapid Response Team</option>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+
+
+
+										</div>
+									</div>
+
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+
+										<hr>
+
+										<h6><strong>Personal Information</strong></h6>
+
+										<div class="row">
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<input type="text" class="form-control form-control1" name="lname" placeholder="Last Name">
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<input type="text" class="form-control form-control1" name="fname" placeholder="First Name">
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<input type="text" class="form-control form-control1" name="mname" placeholder="Middle Name">
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Date of Birth</label>
+											<input type="date" class="form-control form-control1" name="bdate">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<label>Sex</label>
+										<div class="row">
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-check">
+													<input class="form-check-input to-d" type="radio" name="sex" id="sex1" value="male" >
+													<label class="form-check-label" for="sex1">
+														Male
+													</label>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-check">
+													<input class="form-check-input to-d" type="radio" name="sex" id="sex2" value="female" checked>
+													<label class="form-check-label" for="sex2">
+														Female
+													</label>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Address</label>
+											<textarea class="form-control form-control1" name="address"></textarea>
+										</div>
+									</div>
+
 								</div>
 							</div>
 
-							<hr>
+						</form>
+					</div>
 
-							<div class="row">
+					<div id="step-2" class="">
+						<form id="form-step-2">
 
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-									<h6><strong></strong></h6>
+							<input type="hidden" name="assessment_date" value="<?php echo date("F d, Y h:i A")?>">
+							<div class="col-lg-12 mt-4 mb-4">
 
-									<div class="row">
+								<h3 class="border-bottom border-gray pb-2">Triage Assessment</h3>
 
-										<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
-											<div class="form-group" style="text-align: left">
-												<label>Patient No.</label>
-												<h6><strong><span id="patient_no"><?php echo $db->getPatientNumber()?></span></strong></h6>
-											</div>
+								<div class="row">
+
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="form-group">
+											<label>Patient Name</label>
+											<input type="text" class="form-control form-control1" name="pname" readonly>
 										</div>
+									</div>
 
-										<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
-											<div class="form-group">
-												<label>Emergency Code</label>
-												<select name="emergency_code" class="select2 to-d" style="width: 100%;" id="ecode">
-													<option disabled value selected>Select Emergency Code</option>
-													<optgroup label="Color Codes">
-														<option value="amber" id="amber">Amber Alert</option>
-														<option value="blue" id="blue">Blue</option>
-														<option value="grey" >Grey</option>
-														<option value="orange">Orange</option>
-														<option value="pink">Pink</option>
-														<option value="red" >Red</option>
-														<option value="silver">Silver</option>
-													</optgroup>
-
-													<optgroup label="Other Codes">
-														<option value="clear">Code Clear</option>
-														<option value="external">External Triage</option>
-														<option value="internal">Internal Triage</option>
-														<option value="rapid">Rapid Response Team</option>
-													</optgroup>
-												</select>
-											</div>
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="form-group">
+											<label>Assessment Date</label>
+											<input type="text" class="form-control form-control1" name="adate" value="<?php echo date("F d, Y h:i A")?>" readonly>
 										</div>
+									</div>
 
-										<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+								</div>
+
+								<hr>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<h6><strong>Vital Signs</strong></h6>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Blood Pressure</label>
+											<input type="text" class="form-control form-control1 required" name="bpressure">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Breathing</label>
+											<input type="text" class="form-control form-control1 required" name="breathing">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Pulse</label>
+											<input type="text" class="form-control form-control1 required" name="pulse">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Temperature</label>
+											<input type="text" class="form-control form-control1 required" name="temperature">
+										</div>
+									</div>
+								</div>
+
+								<hr>
+
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="row">
+
+											<div class="col-lg-12">
+												<h6><strong>Allergies</strong></h6>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="allergies" id="a_none" value="no" checked>
+													<label class="form-check-label" for="a_none">No</label>
+												</div>
+
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="allergies" value="yes" id="a_yes">
+													<label class="form-check-label" for="a_yes">Yes</label>
+												</div>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-group">
+													<label class="form-check-label" for="a_content">Name</label>
+													<textarea class="form-control form-control1" name="a_name"></textarea>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="row">
+
+											<div class="col-lg-12">
+												<h6><strong>Medication</strong></h6>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="medication" value="no" id="m_none" checked>
+													<label class="form-check-label" for="m_none">No</label>
+												</div>
+
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="medication" value="yes" id="m_yes">
+													<label class="form-check-label" for="m_yes">Yes</label>
+												</div>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-group">
+													<label class="form-check-label" for="m_content">Name</label>
+													<textarea class="form-control form-control1" name="m_name"></textarea>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+
+					<div id="step-3" class="" data-toggle="validator">
+						<form id="form-step-3" >
+
+							<div class="col-lg-12 mt-4 mb-4">
+								<h3 class="border-bottom border-gray pb-2">Symptoms</h3>
+
+								<div class="row mt-2 mb-2">
+									<div class="col-lg-10 col-md-10 col-xs-10 col-sm-10">
+										<div class="form-group">
+											<select name='symptom' class="select2 to-d required select3" style="width: 100%;">
+												<option disabled selected value>Please select a symptom</option>
+												<?php
+												foreach ($db->getSymptoms() as $symptom) { ?>
+													<option value="<?php echo $symptom->symptom_id ?>"><?php echo $symptom->name ?></option>
+												<?php }
+												?>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-2 col-md-2 col-xs-2 col-sm-2">
+										<div class="form-group">
+											<button id="btn_add_symptoms" class="btn btn-primary btn-sm btn-block to-d" type="button">Add</button>
+										</div>
+									</div>
+								</div>
+								<div id="question" class="row">
+
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div id="step-4" class="" data-toggle="validator">
+
+						<form id="form-step-4"> 
+							<div class="col-lg-12 mt-4 mb-4">
+
+								<div class="d-flex border-bottom border-gray mb-4">
+									<div><h3 class="pb-2">Diagnostic Tests</h3></div>
+
+									<div class="ml-auto">
+										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 											<div class="d-flex">
 												<div>Assign Ward & Bed Number</div>
 
@@ -86,326 +337,81 @@ $db = new Database;
 													<button class="btn btn-danger btn-sm d-none to-d" data-toggle="modal" id="removeBed" onclick="removeBed()" type="button"><i class="fas fa-times"></i></button>
 												</div>
 
-													<input type="hidden" name="bed_no" value="n/a">
+												<input type="hidden" name="bed_no" value="n/a">
 											</div>
 
 											<div class="form-group">
 												<p id="bed_desc">No Bed Assignment</p>
 											</div>
 										</div>
-
 									</div>
 								</div>
 
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 
-									<hr>
+										<!-- <h6>Recommended Tests</h6> -->
 
-									<h6><strong>Personal Information</strong></h6>
-
-									<div class="row">
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-group">
-												<input type="text" class="form-control form-control1" name="lname" placeholder="Last Name">
-											</div>
-										</div>
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-group">
-												<input type="text" class="form-control form-control1" name="fname" placeholder="First Name">
-											</div>
-										</div>
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-group">
-												<input type="text" class="form-control form-control1" name="mname" placeholder="Middle Name">
-											</div>
-										</div>
-
-									</div>
-
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Date of Birth</label>
-										<input type="date" class="form-control form-control1" name="bdate">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<label>Sex</label>
-									<div class="row">
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-check">
-												<input class="form-check-input to-d" type="radio" name="sex" id="sex1" value="male" >
-												<label class="form-check-label" for="sex1">
-													Male
-												</label>
-											</div>
-										</div>
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-check">
-												<input class="form-check-input to-d" type="radio" name="sex" id="sex2" value="female" checked>
-												<label class="form-check-label" for="sex2">
-													Female
-												</label>
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Address</label>
-										<textarea class="form-control form-control1" name="address"></textarea>
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-						</form>
-					</div>
-
-					<div id="step-2" class="">
-						<form id="form-step-2">
-
-						<input type="hidden" name="assessment_date" value="<?php echo date("F d, Y h:i A")?>">
-						<div class="col-lg-12 mt-4 mb-4">
-
-							<h3 class="border-bottom border-gray pb-2">Triage Assessment</h3>
-
-							<div class="row">
-
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="form-group">
-										<label>Patient Name</label>
-										<input type="text" class="form-control form-control1" name="pname" readonly>
-									</div>
-								</div>
-
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="form-group">
-										<label>Assessment Date</label>
-										<input type="text" class="form-control form-control1" name="adate" value="<?php echo date("F d, Y h:i A")?>" readonly>
-									</div>
-								</div>
-
-							</div>
-
-							<hr>
-
-							<div class="row">
-
-								<div class="col-lg-12">
-									<h6><strong>Vital Signs</strong></h6>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Blood Pressure</label>
-										<input type="text" class="form-control form-control1 required" name="bpressure">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Breathing</label>
-										<input type="text" class="form-control form-control1 required" name="breathing">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Pulse</label>
-										<input type="text" class="form-control form-control1 required" name="pulse">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Temperature</label>
-										<input type="text" class="form-control form-control1 required" name="temperature">
-									</div>
-								</div>
-							</div>
-
-							<hr>
-
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="row">
-
-										<div class="col-lg-12">
-											<h6><strong>Allergies</strong></h6>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="allergies" id="a_none" value="no" checked>
-												<label class="form-check-label" for="a_none">No</label>
-											</div>
-
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="allergies" value="yes" id="a_yes">
-												<label class="form-check-label" for="a_yes">Yes</label>
-											</div>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-group">
-												<label class="form-check-label" for="a_content">Name</label>
-												<textarea class="form-control form-control1" name="a_name"></textarea>
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="row">
-
-										<div class="col-lg-12">
-											<h6><strong>Medication</strong></h6>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="medication" value="no" id="m_none" checked>
-												<label class="form-check-label" for="m_none">No</label>
-											</div>
-
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="medication" value="yes" id="m_yes">
-												<label class="form-check-label" for="m_yes">Yes</label>
-											</div>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-group">
-												<label class="form-check-label" for="m_content">Name</label>
-												<textarea class="form-control form-control1" name="m_name"></textarea>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-						</div>
-						</form>
-					</div>
-
-					<div id="step-3" class="" data-toggle="validator">
-						<form id="form-step-3" >
-
-						<div class="col-lg-12 mt-4 mb-4">
-							<h3 class="border-bottom border-gray pb-2">Symptoms</h3>
-
-							<div class="row mt-2 mb-2">
-								<div class="col-lg-10 col-md-10 col-xs-10 col-sm-10">
-									<div class="form-group">
-										<select name='symptom' class="select2 to-d required select3" style="width: 100%;">
-											<option disabled selected value>Please select a symptom</option>
-											<?php
-											foreach ($db->getSymptoms() as $symptom) { ?>
-												<option value="<?php echo $symptom->symptom_id ?>"><?php echo $symptom->name ?></option>
-											<?php }
-											?>
-										</select>
-									</div>
-								</div>
-
-								<div class="col-lg-2 col-md-2 col-xs-2 col-sm-2">
-									<div class="form-group">
-										<button id="btn_add_symptoms" class="btn btn-primary btn-sm btn-block to-d" type="button">Add</button>
-									</div>
-								</div>
-							</div>
-							<div id="question" class="row">
-								
-							</div>
-						</div>
-					</form>
-					</div>
-
-					<div id="step-4" class="" data-toggle="validator">
-
-						<form id="form-step-4"> 
-						<div class="col-lg-12 mt-4 mb-4">
-
-							<h3 class="border-bottom border-gray pb-2">Diagnostic Tests</h3>
-
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-
-									<!-- <h6>Recommended Tests</h6> -->
-
-									<table class="table hover table-responsive">
-										<thead>
-											<tr>
-												<th width="5%"></th>
-												<th width="75%">Name</th>
-												<th width="25%">Actions</th>
-											</tr>
-										</thead>
-
-										<tbody>
-
-											<?php
-											foreach ($db->getTests() as $test) { ?>
+										<table class="table hover table-responsive">
+											<thead>
 												<tr>
-													<td><input type="checkbox" name="test[]" class="to-d" value="<?php echo $test->test_id ?>"></td>
-													<td><?php echo $test->name?></td>
-													<td>
-														<button class="btn btn-primary btn-sm" data-target='m_details' onclick="open_modal(this)" value="<?php echo $test->test_id ?>" type="button">Details</button>
-													</td>
+													<th width="5%"></th>
+													<th width="75%">Name</th>
+													<th width="25%">Actions</th>
 												</tr>
-											<?php }
-											?>
-										</tbody>
+											</thead>
 
-									</table>
+											<tbody>
 
+												<?php
+												foreach ($db->getTests() as $test) { ?>
+													<tr>
+														<td><input type="checkbox" name="test[]" class="to-d" value="<?php echo $test->test_id ?>"></td>
+														<td><?php echo $test->name?></td>
+														<td>
+															<button class="btn btn-primary btn-sm" data-target='m_details' onclick="open_modal(this)" value="<?php echo $test->test_id ?>" type="button">Details</button>
+														</td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+
+										</table>
+
+									</div>
 								</div>
-							</div>
 
-						</div>
-					</form>
+							</div>
+						</form>
 					</div>
 
 					<div id="step-5" class="" data-toggle="validator">
 
 						<form id="form-step-5">
 
-						<div class="col-lg-12 mt-4 mb-4">
+							<div class="col-lg-12 mt-4 mb-4">
 
-							<h3 class="border-bottom border-gray pb-2">Results</h3>
+								<h3 class="border-bottom border-gray pb-2">Results</h3>
 
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-									<table class="table hover table-responsive" id="tlab_test">
-										<thead>
-											<tr>
-												<th width="40%">Name</th>
-												<th>Status</th>
-												<th>Date & Time Completed</th>
-												<th>Actions</th>
-											</tr>
-										</thead>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+										<table class="table hover table-responsive" id="tlab_test">
+											<thead>
+												<tr>
+													<th width="40%">Name</th>
+													<th>Status</th>
+													<th>Date & Time Completed</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
 
-										<tbody>
-										</tbody>
-									</table>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
-						</div>
-					</form>
+						</form>
 					</div>
 
 					<div id="step-6" class="" data-toggle="validator">
@@ -585,32 +591,32 @@ $db = new Database;
             // Step show event
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
                //alert("You are on step "+stepNumber+" now");
-               	if(stepPosition === 'first'){
-               		$("#prev-btn").addClass('disabled');
-	            }else if(stepPosition === 'final'){
-	               	$("#next-btn").addClass('disabled');
-	            }
-	            if(stepNumber == 5){
+               if(stepPosition === 'first'){
+               	$("#prev-btn").addClass('disabled');
+               }else if(stepPosition === 'final'){
+               	$("#next-btn").addClass('disabled');
+               }
+               if(stepNumber == 5){
                		//disable all form in step 1-4
                		$("#finish-button").removeClass("d-none");
                		$("#new").removeClass("d-none");
-	            }
-	            else{
+               	}
+               	else{
                		$(".sw-btn-prev").removeClass('d-none');
-	            	$("#prev-btn").removeClass('disabled');
-	            	$("#next-btn").removeClass('disabled');
-	            }
-           });
+               		$("#prev-btn").removeClass('disabled');
+               		$("#next-btn").removeClass('disabled');
+               	}
+               });
 
             // Toolbar extra buttons
             var btnFinish = $('<button id="finish-button"></button>').text('Finish')
             .addClass('btn btn-info d-none')
             .on('click', function(){
-             	$("#confirm_body").html("Are you sure to finish this transaction?");
-				$("input[name='confirm_type']").val("y/n/1");
-				$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
-				$("#confirm").modal('show');
-         	});
+            	$("#confirm_body").html("Are you sure to finish this transaction?");
+            	$("input[name='confirm_type']").val("y/n/1");
+            	$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
+            	$("#confirm").modal('show');
+            });
             var btnCancel = $('<button id="new"></button>').text('New Patient')
             .addClass('btn btn-danger d-none')
             .on('click', function(){ $('#smartwizard').smartWizard("reset"); location.reload(); });
@@ -1059,42 +1065,42 @@ $db = new Database;
 	function selectBed(data){
 		var data = data.split(",");
 			//data[0] = bed no, data[1] = ward no, data[2] = floor, data[3] = status
-		$("input[name='bed_no'").val(data[0]);
-		$("#bed_desc").html("Bed No: "+data[0]+"<br/>Ward No: "+data[1]+"<br/>Floor: "+data[2]);
-		$("#bill_bed_no").text(data[0]);
-		$("#bill_ward_no").text(data[1]);
-		$("#m_select_patient_bed").modal('hide');
-		$("#removeBed").removeClass('d-none');
-	}
-	function removeBed(){
-		$("input[name='bed_no'").val('n/a');
-		$("#removeBed").addClass('d-none');
-		$("#bed_desc").html("No Bed Assignment");
-		$("#bill_bed_no").text("");
-		$("#bill_ward_no").text("");
-	}
-	$("#test_submit").on("click", function(){
-		var test_value = [];
-		$("input[name='test_value[]']").each(function(){
-			test_value.push($(this).val());
-		});
-		var interpretation = $("textarea[name='interpretation']").val();
-		var labtest_id = $("input[name='labtest_id']").val();
-		var type = $("input[name='test_type']").val();
-		test_value.push(interpretation,labtest_id,type);
-		$.ajax({
-			url:"assets/includes/class_handler.php",
-			type: "POST",
-			data: {id:7, test_value : test_value },
-			success: function(data){
-				var data = JSON.parse(data);
-				if(data[0] == true){
-					$("#m_test_result").modal('hide');
-					result_table(data[1]);
+			$("input[name='bed_no'").val(data[0]);
+			$("#bed_desc").html("Bed No: "+data[0]+"<br/>Ward No: "+data[1]+"<br/>Floor: "+data[2]);
+			$("#bill_bed_no").text(data[0]);
+			$("#bill_ward_no").text(data[1]);
+			$("#m_select_patient_bed").modal('hide');
+			$("#removeBed").removeClass('d-none');
+		}
+		function removeBed(){
+			$("input[name='bed_no'").val('n/a');
+			$("#removeBed").addClass('d-none');
+			$("#bed_desc").html("No Bed Assignment");
+			$("#bill_bed_no").text("");
+			$("#bill_ward_no").text("");
+		}
+		$("#test_submit").on("click", function(){
+			var test_value = [];
+			$("input[name='test_value[]']").each(function(){
+				test_value.push($(this).val());
+			});
+			var interpretation = $("textarea[name='interpretation']").val();
+			var labtest_id = $("input[name='labtest_id']").val();
+			var type = $("input[name='test_type']").val();
+			test_value.push(interpretation,labtest_id,type);
+			$.ajax({
+				url:"assets/includes/class_handler.php",
+				type: "POST",
+				data: {id:7, test_value : test_value },
+				success: function(data){
+					var data = JSON.parse(data);
+					if(data[0] == true){
+						$("#m_test_result").modal('hide');
+						result_table(data[1]);
+					}
 				}
-			}
+			});
 		});
-	});
 	</script>
 
 	</html>
