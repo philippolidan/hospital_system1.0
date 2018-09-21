@@ -48,6 +48,7 @@ $db = new Database;
 					<thead>
 						<tr>
 							<th>Patient ID</th>
+							<th>Patient Name</th>
 							<th>Status</th>
 							<th width="10%">Actions</th>
 						</tr>
@@ -57,6 +58,9 @@ $db = new Database;
 							foreach($db->getERS() as $er){ ?>
 								<tr>
 									<td>PT - <?php echo $er->patient_id?></td>
+									<?php foreach($er->patient as $patient){ ?>
+									<td><?php echo $patient->lname.", ".$patient->fname." ".$patient->mname?></td>
+									<?php }?>
 									<td><?php echo ucfirst($er->status)?></td>
 									<td>
 										<button class="btn btn-info btn-sm" data-toggle="modal" data-target="m_patient_profile" onclick="open_modal(this)" value="<?php echo $er->_id.','.$er->patient_oid?>"><i class="fas fa-eye"></i></button>

@@ -67,7 +67,17 @@ class Database
 		return $this->db->er_transaction->find(['patient_oid' => $patient_oid]);
 	}
 	public function getERS(){
-		return $this->db->er_transaction->find();
+		return $this->db->er_transaction->aggregate(
+			[
+				['$lookup' =>
+					[
+						"from" => "patient",
+						"localField" => "patient_id",
+						"foreignField" => "patient_id",
+						"as" => "patient"
+					]
+				]
+			]);
 	}
 	public function getPatientERById($id,$patient_oid){
 		return $this->db->er_transaction->aggregate( 

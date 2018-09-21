@@ -506,7 +506,6 @@ $db = new Database;
 													<thead>
 														<tr>
 															<th>Particulars</th>
-															<th>Rate</th>
 															<th class="dt-right">Amount</th>
 														</tr>
 													</thead>
@@ -946,10 +945,10 @@ $db = new Database;
 				}
 				var t = $('#billing_table').DataTable();
 				t.clear().draw();
-				t.row.add(["Doctor's Fee","250.00","250.00"]).draw(false);
+				t.row.add(["Doctor's Fee","250.00"]).draw(false);
 				console.log(data[8]);
 				data[8].forEach(function(d){
-					t.row.add([d[0],d[1],"<input type='text' class='form-control' name='bill_val[]'>",d[1]]).draw(false);
+					t.row.add([d[0],d[1]]).draw(false);
 				});
 				// for(var i = 0; i<data[8][0].length;i++){
 
