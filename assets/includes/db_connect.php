@@ -66,6 +66,37 @@ class Database
 	public function getER($patient_oid){
 		return $this->db->er_transaction->find(['patient_oid' => $patient_oid]);
 	}
+	public function getERS(){
+		return $this->db->er_transaction->find();
+	}
+	public function getPatientERById($id,$patient_oid){
+		return $this->db->er_transaction->aggregate( 
+			[
+				[ '$match' => 
+					[ "_id" => new MongoDB\BSON\ObjectId($id) ]
+				],
+				['$lookup' =>
+					[
+						"from" => "patient",
+						"pipeline" => [
+							[ '$match' => [ "_id" => new MongoDB\BSON\ObjectId($patient_oid) ]]
+						],
+						"as" => "patient"
+					]
+				],
+				['$lookup' =>
+					[
+						"from" => "triage",
+						"pipeline" => [
+							[ '$match' => [ "patient_oid" => $patient_oid ]]
+						],
+						"as" => "triage"
+					]
+				]
+
+			]
+		);
+	}
 	public function getPatientER($patient_oid){
 		$patient_oid1 = new MongoDB\BSON\ObjectId($patient_oid);
 		return $this->db->patient->aggregate( 
@@ -81,7 +112,7 @@ class Database
 						],
 						"as" => "er_transaction"
 					]
-				]
+				],
 
 			]
 		);
@@ -245,6 +276,10 @@ class Database
 			$result = $this->db->bill->insertOne($bill);
 			return true;
 		}
+	}
+	public function loginUser($email, $password){
+		$result = $this->db->users->findOne(array("email" => $email, "salt" => $password));
+		return $result;
 	}
 }
 ?>

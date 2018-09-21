@@ -9,6 +9,7 @@
 <script type="text/javascript" src="assets/js/pdfmake.min.js"></script>
 <script type="text/javascript" src="assets/js/vfs_fonts.js"></script>
 <script type="text/javascript" src="assets/js/datatables.min.js"></script>
+<script type="text/javascript" src="assets/js/chart.min.js"></script>
 
 <script type="text/javascript">
 	$.fn.extend({

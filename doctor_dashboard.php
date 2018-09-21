@@ -208,3 +208,10 @@
 </div>
 
 <?php include('assets/parts/scripts.php'); ?>
+
+<script type="text/javascript">
+	
+	$("#doctor").addClass("active");
+	$("#patient").removeClass("active");
+		
+</script>

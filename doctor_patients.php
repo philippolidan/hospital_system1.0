@@ -1,4 +1,14 @@
-<?php include('assets/parts/header.php'); ?>
+<?php 
+include('assets/parts/header.php');
+$db = new Database;
+// foreach($db->getPatientERById("5ba35679b8dde11e54001970","5ba35679b8dde11e54001968") as $er){
+// 	foreach($er->patient as $patient){
+// 	}
+// 	foreach($er->triage as $triage){
+// 		var_dump($triage);
+// 	}
+// }
+?>
 
 <div class="wrapper">
 
@@ -22,24 +32,39 @@
 		<div class="row">
 
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
-				<h3 class="">Patients</h3><hr>
+				<div class="d-flex">
+					<div>
+						<h3 class="">ER Transaction</h3><hr>
+					</div>
+
+					<div class="ml-auto">
+						<a href="patient_registration.php" class="btn btn-info" style="color: white"><i class="fas fa-plus"></i> Add Transaction</a>
+					</div>
+				</div>
 			</div>
 
 			<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 				<table class="table" style="width: 100%">
 					<thead>
 						<tr>
-							<th>Full Name</th>
+							<th>Patient ID</th>
+							<th>Status</th>
 							<th width="10%">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Cuevas, Mark Dherrick P.</td>
-							<td>
-								<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#m_patient_profile"><i class="fas fa-eye"></i></button>
-							</td>
-						</tr>
+						<?php
+							foreach($db->getERS() as $er){ ?>
+								<tr>
+									<td>PT - <?php echo $er->patient_id?></td>
+									<td><?php echo ucfirst($er->status)?></td>
+									<td>
+										<button class="btn btn-info btn-sm" data-toggle="modal" data-target="m_patient_profile" onclick="open_modal(this)" value="<?php echo $er->_id.','.$er->patient_oid?>"><i class="fas fa-eye"></i></button>
+									</td>
+								</tr>
+							<?php }
+						?>
+						
 					</tbody>
 				</table>
 			</div>
@@ -56,4 +81,41 @@
 
 <script type="text/javascript">
 	$(".table").DataTable();
+	$("#patient").addClass("active");
+	$("#doctor").removeClass("active");
+	function open_modal(object){
+		var val = $(object).val();
+		val = val.split(",");
+		var type = null;
+		var id;
+		var modal = $(object).data('target');  
+		$.ajax({
+			url:"assets/includes/class_handler.php",
+			type: "POST",
+			data: {id:10, er_id : val[0],patient_oid:val[1] },
+			success: function(data){
+				var data = JSON.parse(data);
+				console.log(data);
+				$("#pname").text(data[0]);
+				$("#p_id").text(data[1]);
+				$("#a_date").text(data[2]);
+				$("#bp").text(data[3]);
+				$("#breathing").text(data[4]);
+				$("#pulse").text(data[5]);
+				$("#temp").text(data[6]);
+				$("#isallergic").text(data[7]);
+				$("#hasmedication").text(data[9]);
+				if(data[8] == "" && data[10] == ""){
+					$("#allergies").text("None");
+					$("#medications").text("None");
+				}
+				else{
+					$("#allergies").text(data[8]);
+					$("#medications").text(data[10]);
+				}
+				$("#img").attr("src","assets/img/avatars/"+data[11]+".svg")
+				$("#"+modal).modal("show");
+			}
+		});
+	}
 </script>

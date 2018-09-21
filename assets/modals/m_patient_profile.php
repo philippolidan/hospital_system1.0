@@ -26,13 +26,13 @@
 
 								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 									<div class="media text-muted pt-3">
-										<img src="assets/img/avatars/boy.svg" alt="" class="mr-2 rounded" style="height: 60px; width: 60px;">
+										<img src="" alt="" class="mr-2 rounded" style="height: 60px; width: 60px;" id="img">
 										<div class="media-body pb-3 mb-0 small lh-125" style="font-size: 12px;">
 											<div class="d-flex justify-content-between align-items-center w-100">
-												<strong class="text-dark">Mr. Mark Dherrick P. Cuevas</strong>
+												<strong class="text-dark" id="pname">Mr. Mark Dherrick P. Cuevas</strong>
 											</div>
-											<span class="d-block">Patient ID: ALPX-3829</span>
-											<span class="d-block">Age: 18</span>
+											<span class="d-block" id="p_id">Patient ID: ALPX-3829</span>
+											<span class="d-block" id="a_date"></span>
 										</div>
 									</div>
 								</div>
@@ -58,51 +58,21 @@
 
 											<div class="d-flex border-bottom mt-1 mb-1">
 												<div>
-													<h6 class="small">Height</h6>
+													<h6 class="small">Blood Pressure</h6>
 												</div>
 
 												<div class="ml-auto">
-													<h6 class="small font-weight-bold">5'6</h6>
+													<h6 class="small font-weight-bold" id="bp">5'6</h6>
 												</div>
 											</div>
 
 											<div class="d-flex border-bottom mt-1 mb-1">
 												<div>
-													<h6 class="small">Weight</h6>
+													<h6 class="small">Breathing</h6>
 												</div>
 
 												<div class="ml-auto">
-													<h6 class="small font-weight-bold">75 kgs</h6>
-												</div>
-											</div>
-
-											<div class="d-flex border-bottom mt-1 mb-1">
-												<div>
-													<h6 class="small">BMI</h6>
-												</div>
-
-												<div class="ml-auto">
-													<h6 class="small font-weight-bold">28</h6>
-												</div>
-											</div>
-
-											<div class="d-flex border-bottom mt-1 mb-1">
-												<div>
-													<h6 class="small">Temperature</h6>
-												</div>
-
-												<div class="ml-auto">
-													<h6 class="small font-weight-bold">38°</h6>
-												</div>
-											</div>
-
-											<div class="d-flex border-bottom mt-1 mb-1">
-												<div>
-													<h6 class="small">Respiratory Rate</h6>
-												</div>
-
-												<div class="ml-auto">
-													<h6 class="small font-weight-bold">28/min</h6>
+													<h6 class="small font-weight-bold" id="breathing">75 kgs</h6>
 												</div>
 											</div>
 
@@ -112,17 +82,56 @@
 												</div>
 
 												<div class="ml-auto">
-													<h6 class="small font-weight-bold">89/min</h6>
+													<h6 class="small font-weight-bold" id="pulse">28</h6>
 												</div>
 											</div>
 
 											<div class="d-flex border-bottom mt-1 mb-1">
 												<div>
-													<h6 class="small">Blood Pressure</h6>
+													<h6 class="small" id="temp">Temperature</h6>
 												</div>
 
 												<div class="ml-auto">
-													<h6 class="small font-weight-bold">125/80</h6>
+													<h6 class="small font-weight-bold">38°</h6>
+												</div>
+											</div>
+
+											<div class="d-flex border-bottom mt-1 mb-1">
+												<div>
+													<h6 class="small">Allergic</h6>
+												</div>
+
+												<div class="ml-auto">
+													<h6 class="small font-weight-bold" id="isallergic">28/min</h6>
+												</div>
+											</div>
+
+											<div class="d-flex border-bottom mt-1 mb-1">
+												<div>
+													<h6 class="small">Allergies</h6>
+												</div>
+
+												<div class="ml-auto">
+													<h6 class="small font-weight-bold" id="allergies">89/min</h6>
+												</div>
+											</div>
+
+											<div class="d-flex border-bottom mt-1 mb-1">
+												<div>
+													<h6 class="small">Has Medications?</h6>
+												</div>
+
+												<div class="ml-auto">
+													<h6 class="small font-weight-bold" id='hasmedication'>125/80</h6>
+												</div>
+											</div>
+											<div class="d-flex border-bottom mt-1 mb-1">
+												<div>
+													<h6 class="small">Medications</h6>
+												</div>
+
+												<div class="ml-auto">
+													<h6 class="small font-weight-bold" id='medications'>125/80</h6>
 												</div>
 											</div>
 										</div>

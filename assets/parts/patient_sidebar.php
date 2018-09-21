@@ -1,3 +1,7 @@
+<?php
+$url = $_SERVER['REQUEST_URI'];
+
+?>
 <!-- Sidebar  -->
 <nav id="sidebar" class="active ">
 	<div class="sidebar-header">

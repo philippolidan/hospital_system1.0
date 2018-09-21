@@ -12,7 +12,7 @@
 			<div class="modal-body">
 				<div class="col-lg-12">
 
-					<table id="bed_table" class="table hover" style="width: 100%">
+					<table id="bed_table" class="table hover table-responsive" style="width: 100%">
 						<thead>
 							<tr>
 								<th width="5%">Bed No.</th>

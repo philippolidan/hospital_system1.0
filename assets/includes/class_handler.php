@@ -169,7 +169,45 @@ if(isset($_POST['id'])){
 	}
 	else if($id == 9){// insert bill
 		echo $db->bill($_POST);
+	}
+	else if($id == 10){
+		foreach($db->getPatientERById($_POST['er_id'],$_POST['patient_oid']) as $er){
+			$name = "";
+			$address = "";
+			$p_id = "";
+			$a_date = $er->assessment_date;
+			$bp = "";
+			$breathing = "";
+			$pulse = "";
+			$temp = "";
+			$isallergic = "";
+			$allergies = "";
+			$hasmedication = "";
+			$medications = "";
+			$sex = "";
+			foreach($er->patient as $patient){
+				$name = $patient->lname.", ".$patient->fname." ".$patient->mname;
+				$address = $patient->address;
+				$p_id = "PT-".$patient->patient_id;
+				if($patient->sex == "male"){
+					$sex ="boy";
+				}
+				else
+					$sex="girl";
 
+			}
+			foreach($er->triage as $triage){
+				$bp = $triage->blood_pressure;
+				$breathing = $triage->breathing;
+				$pulse = $triage->pulse;
+				$temp = $triage->temperature;
+				$isallergic = $triage->isallergic;
+				$allergies = $triage->allergies;
+				$hasmedication = $triage->hasmedication;
+				$medications = $triage->medications;
+			}
+			echo json_encode(array($name,$p_id,$a_date,$bp,$breathing,$pulse,$temp,ucfirst($isallergic),$allergies,ucfirst($hasmedication),$medications,$sex));
+		}
 	}
 }
 

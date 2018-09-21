@@ -19,8 +19,8 @@ $db = new Database;
 				</ul>
 
 				<div style="padding: 10px;">
-					<div id="step-1" class="" data-toggle="validator">
-						<form id="form-step-1" >
+					<div id="step-1" class="">
+						<form id="form-step-1">
 
 						<input type="hidden" name="to-d-r" value="0">
 						<input type="text" class="d-none" name="patient_oid">
@@ -55,15 +55,15 @@ $db = new Database;
 										<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
 											<div class="form-group">
 												<label>Emergency Code</label>
-												<select name="emergency_code" class="select2 to-d" style="width: 100%;" required>
+												<select name="emergency_code" class="select2 to-d" style="width: 100%;" id="ecode">
 													<option disabled value selected>Select Emergency Code</option>
 													<optgroup label="Color Codes">
-														<option value="amber">Amber Alert</option>
-														<option value="blue">Blue</option>
-														<option value="grey">Grey</option>
+														<option value="amber" id="amber">Amber Alert</option>
+														<option value="blue" id="blue">Blue</option>
+														<option value="grey" >Grey</option>
 														<option value="orange">Orange</option>
 														<option value="pink">Pink</option>
-														<option value="red">Red</option>
+														<option value="red" >Red</option>
 														<option value="silver">Silver</option>
 													</optgroup>
 
@@ -107,19 +107,19 @@ $db = new Database;
 
 										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 											<div class="form-group">
-												<input type="text" class="form-control" name="lname" placeholder="Last Name">
+												<input type="text" class="form-control form-control1" name="lname" placeholder="Last Name">
 											</div>
 										</div>
 
 										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 											<div class="form-group">
-												<input type="text" class="form-control" name="fname" placeholder="First Name">
+												<input type="text" class="form-control form-control1" name="fname" placeholder="First Name">
 											</div>
 										</div>
 
 										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 											<div class="form-group">
-												<input type="text" class="form-control" name="mname" placeholder="Middle Name">
+												<input type="text" class="form-control form-control1" name="mname" placeholder="Middle Name">
 											</div>
 										</div>
 
@@ -130,7 +130,7 @@ $db = new Database;
 								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
 									<div class="form-group">
 										<label>Date of Birth</label>
-										<input type="date" class="form-control" name="bdate">
+										<input type="date" class="form-control form-control1" name="bdate">
 									</div>
 								</div>
 
@@ -162,7 +162,7 @@ $db = new Database;
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label>Address</label>
-										<textarea class="form-control" name="address"></textarea>
+										<textarea class="form-control form-control1" name="address"></textarea>
 									</div>
 								</div>
 
@@ -172,7 +172,7 @@ $db = new Database;
 						</form>
 					</div>
 
-					<div id="step-2" class="" data-toggle="validator">
+					<div id="step-2" class="">
 						<form id="form-step-2">
 
 						<input type="hidden" name="assessment_date" value="<?php echo date("F d, Y h:i A")?>">
@@ -185,14 +185,14 @@ $db = new Database;
 								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 									<div class="form-group">
 										<label>Patient Name</label>
-										<input type="text" class="form-control" name="pname" readonly>
+										<input type="text" class="form-control form-control1" name="pname" readonly>
 									</div>
 								</div>
 
 								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 									<div class="form-group">
 										<label>Assessment Date</label>
-										<input type="text" class="form-control" name="adate" value="<?php echo date("F d, Y h:i A")?>" readonly>
+										<input type="text" class="form-control form-control1" name="adate" value="<?php echo date("F d, Y h:i A")?>" readonly>
 									</div>
 								</div>
 
@@ -209,28 +209,28 @@ $db = new Database;
 								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
 									<div class="form-group">
 										<label>Blood Pressure</label>
-										<input type="text" class="form-control" name="bpressure">
+										<input type="text" class="form-control form-control1 required" name="bpressure">
 									</div>
 								</div>
 
 								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
 									<div class="form-group">
 										<label>Breathing</label>
-										<input type="text" class="form-control" name="breathing">
+										<input type="text" class="form-control form-control1 required" name="breathing">
 									</div>
 								</div>
 
 								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
 									<div class="form-group">
 										<label>Pulse</label>
-										<input type="text" class="form-control" name="pulse">
+										<input type="text" class="form-control form-control1 required" name="pulse">
 									</div>
 								</div>
 
 								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
 									<div class="form-group">
 										<label>Temperature</label>
-										<input type="text" class="form-control" name="temperature">
+										<input type="text" class="form-control form-control1 required" name="temperature">
 									</div>
 								</div>
 							</div>
@@ -260,7 +260,7 @@ $db = new Database;
 										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 											<div class="form-group">
 												<label class="form-check-label" for="a_content">Name</label>
-												<textarea class="form-control" name="a_name"></textarea>
+												<textarea class="form-control form-control1" name="a_name"></textarea>
 											</div>
 										</div>
 
@@ -289,7 +289,7 @@ $db = new Database;
 										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 											<div class="form-group">
 												<label class="form-check-label" for="m_content">Name</label>
-												<textarea class="form-control" name="m_name"></textarea>
+												<textarea class="form-control form-control1" name="m_name"></textarea>
 											</div>
 										</div>
 
@@ -302,7 +302,7 @@ $db = new Database;
 					</div>
 
 					<div id="step-3" class="" data-toggle="validator">
-						<form id="form_step-3" >
+						<form id="form-step-3" >
 
 						<div class="col-lg-12 mt-4 mb-4">
 							<h3 class="border-bottom border-gray pb-2">Symptoms</h3>
@@ -310,7 +310,7 @@ $db = new Database;
 							<div class="row mt-2 mb-2">
 								<div class="col-lg-10 col-md-10 col-xs-10 col-sm-10">
 									<div class="form-group">
-										<select name='symptom' class="select2 to-d" style="width: 100%;">
+										<select name='symptom' class="select2 to-d required select3" style="width: 100%;">
 											<option disabled selected value>Please select a symptom</option>
 											<?php
 											foreach ($db->getSymptoms() as $symptom) { ?>
@@ -336,7 +336,7 @@ $db = new Database;
 
 					<div id="step-4" class="" data-toggle="validator">
 
-						<form id="form_step-4"> 
+						<form id="form-step-4"> 
 						<div class="col-lg-12 mt-4 mb-4">
 
 							<h3 class="border-bottom border-gray pb-2">Diagnostic Tests</h3>
@@ -346,7 +346,7 @@ $db = new Database;
 
 									<!-- <h6>Recommended Tests</h6> -->
 
-									<table class="table hover">
+									<table class="table hover table-responsive">
 										<thead>
 											<tr>
 												<th width="5%"></th>
@@ -389,7 +389,7 @@ $db = new Database;
 
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-									<table class="table hover responsive" id="tlab_test">
+									<table class="table hover table-responsive" id="tlab_test">
 										<thead>
 											<tr>
 												<th width="40%">Name</th>
@@ -410,7 +410,7 @@ $db = new Database;
 
 					<div id="step-6" class="" data-toggle="validator">
 						<form id="form-step-6" onsubmit="return false" >
-							<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" style="padding: 10px;">
+							<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" style="padding: 10px;" id="to_print">
 
 								<div class="row mb-4">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -433,7 +433,7 @@ $db = new Database;
 								<hr style="margin-top: -5px;">
 
 								<!-- Patient Information -->
-								<div class="row mb-4" style="font-size: 12px;" id="to_print">
+								<div class="row mb-4" style="font-size: 12px;" >
 									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 										<div class="row">
 											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
@@ -501,7 +501,6 @@ $db = new Database;
 														<tr>
 															<th>Particulars</th>
 															<th>Rate</th>
-															<th>Discount</th>
 															<th class="dt-right">Amount</th>
 														</tr>
 													</thead>
@@ -526,7 +525,8 @@ $db = new Database;
 
 													<div class="ml-auto" style="text-align: right">
 														<p class="billing-patient-details font-weight-bold" id="subtotal">0.00</p>
-														<p class="billing-patient-details font-weight-bold" id="discount">0.00</p>
+														<input type="text" class="form-control text-right" name="discount" value="0.00">
+														<p class="billing-patient-details font-weight-bold d-none" id="p-discount"></p>
 														<p class="billing-patient-details font-weight-bold" id="total">0.00</p>
 													</div>
 
@@ -554,6 +554,16 @@ $db = new Database;
 <?php include('assets/modals/m_select_patient_bed.php'); ?>
 
 <script type="text/javascript">
+	function formatColor (color) {
+		if (!color.id || color.id == "clear" || color.id == "external" || color.id == "internal" || color.id == "rapid") {
+			return color.text;
+		}
+		var baseUrl = "assets/img/colors";
+		var $state = $(
+			'<span><img src="' + baseUrl + '/' + color.element.value.toLowerCase() + '.png" class="img-flag" style="width:20px; height:20px" /> ' + color.text + '</span>'
+			);
+		return $state;
+	};
 	$(document).ready(function(){
 
 		$(".table").DataTable({
@@ -570,9 +580,8 @@ $db = new Database;
 				"emptyTable": "Empty"
 			}
 		});
-
-		$(".select2").select2();
-
+		$("#ecode").select2({"width":"100%", templateResult: formatColor});
+		$(".select3").select2({"width" :"100%"});
             // Step show event
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
                //alert("You are on step "+stepNumber+" now");
@@ -624,14 +633,6 @@ $db = new Database;
         });
 	$("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 		var tdr = $("input[name='to-d-r']").val();
-		var elmForm = $("#step-" + (stepNumber + 1));
-		elmForm.validator('validate');
-		var elmErr = elmForm.children('.has-error');
-		console.log(elmErr);
-		if(elmErr && elmErr.length > 0){
-                        // Form validation failed
-            return false;
-        }
 		if(stepNumber == 3 && stepDirection =='forward'){
 			if(tdr == 0){
 				e.preventDefault();
@@ -673,14 +674,14 @@ $db = new Database;
 				$("#confirm").modal('hide');
 			}
 			else{
-				$(".form-control").prop("readonly","readonly");
+				insert(1);
+				$(".form-control1").prop("readonly","readonly");
 				$(".to-r").prop("readonly","readonly");
 				$(".to-d").prop("disabled","true");
 				$("input[name='to-d-r']").val(1);
 
 				$("li:eq(3)").addClass("disabled");
 				$("li:eq(4)").addClass("disabled");
-				insert(1);
 				//get_bill(1);
 				$("#smartwizard").smartWizard("goToStep",5);
 				$("#confirm").modal('hide');
@@ -690,7 +691,7 @@ $db = new Database;
 			if(val === "okay"){
 				insert(0);
 				//get_bill(0);
-				$(".form-control").prop("readonly","readonly");
+				$(".form-control1").prop("readonly","readonly");
 				$(".to-r").prop("readonly","readonly");
 				$(".to-d").prop("disabled","true");
 				$("#smartwizard").smartWizard("goToStep",4);
@@ -703,6 +704,7 @@ $db = new Database;
 		}
 		else if(confirm_type == "y/n/1"){
 			if(val == "yes"){
+				$("input[name='discount']").attr("readonly",false);
 				bill();
 			}
 			else{
@@ -712,6 +714,7 @@ $db = new Database;
 	}
 	function insert(wlt){
 		var form_one = $('#form-step-1').serializeArray();
+		console.log(form_one);
 		var form_two = $('#form-step-2').serializeArray();
 		var form_three = $('#form-step-3').serializeArray();
 		var form_four = $('#form-step-4').serializeArray();
@@ -726,6 +729,7 @@ $db = new Database;
 			data: form_data,
 			success: function(data){
 				var data = JSON.parse(data);
+				console.log(data);
 				if(data[0] == true){
 					var p_id = data[1];
 					$("input[name='patient_oid']").val(p_id);
@@ -918,6 +922,7 @@ $db = new Database;
 			data: {id:8,patient_oid:patient_oid},
 			success: function(data){
 				var data = JSON.parse(data);
+				console.log(data);
 				$("#b_pname").text(data[0]);
 				$("#b_address").text(data[1]);
 				$("#b_assessment").text(data[2]);
@@ -935,10 +940,10 @@ $db = new Database;
 				}
 				var t = $('#billing_table').DataTable();
 				t.clear().draw();
-				t.row.add(["Doctor's Fee","250.00","<input type='text' class='form-control' value='0.00'>","250.00"]).draw(false);
+				t.row.add(["Doctor's Fee","250.00","250.00"]).draw(false);
 				console.log(data[8]);
 				data[8].forEach(function(d){
-					t.row.add([d[0],d[1],"<input type='text' class='form-control' value='0.00'>",d[1]]).draw(false);
+					t.row.add([d[0],d[1],"<input type='text' class='form-control' name='bill_val[]'>",d[1]]).draw(false);
 				});
 				// for(var i = 0; i<data[8][0].length;i++){
 
@@ -948,9 +953,12 @@ $db = new Database;
 			}
 		});
 	}
+	$(".bill_input").on('change',function(){
+		$(this).val($(this).val());
+	});
 	function bill(){
 		var subtotal = $("#subtotal").text();
-		var discount = $("#discount").text();
+		var discount = $("input[name='discount']").val();
 		var total = $("#total").text();
 		var patient_oid = $("input[name='patient_oid']").val();
 		$.ajax({
@@ -966,8 +974,9 @@ $db = new Database;
 	}
 	function print_button(modal) {
 		$("#"+modal).modal("hide");
+		$("input[name='discount']").addClass("d-none");
+		$("#p-discount").removeClass("d-none");
 		var print_data = $(document).find('#to_print').html();
-
 		if (print_data != "" || !isNaN(print_data))
 		{
 			var mapForm = document.createElement("form");
@@ -997,26 +1006,23 @@ $db = new Database;
 	}
 	function calculate(){
 		var subtotal = 0.00;
-		var discount = 0.00;
+		var discount = $("input[name='discount']").val();
+		$("#p-discount").text(parseFloat(discount).toFixed(2));
 		$('#billing_table tr').each(function() {
-			var dsc = parseFloat($(this).find("td input[type='text']").val());
-			if(isNaN(dsc))
-				dsc = 0.00;
-			discount = discount + dsc;
 			var st = parseFloat($(this).find("td").eq(1).html());
 			if(isNaN(st))
 				st = 0.00;
 			subtotal = subtotal + st;
-			var amnt = st - dsc;
+			var amnt = st - parseFloat(discount);
 			$(this).find("td").eq(3).html(amnt.toFixed(2))
 		});
 		$("#subtotal").text(parseFloat(subtotal).toFixed(2));
-		$("#discount").text(parseFloat(discount).toFixed(2));
+		//$("#input[name='discount']").text(parseFloat(discount).toFixed(2));
 		var total = subtotal - discount;
 		$("#total").text(parseFloat(total).toFixed(2));
 	}
-	$("#billing_table").on("change", "input", function() {
-		// console.log($(this).val());
+	$("input[name='discount']").on("change", function() {
+		console.log($(this).val());
 		calculate();
 	});
 	function toFloat(x) {

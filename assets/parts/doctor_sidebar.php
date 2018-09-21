@@ -6,17 +6,17 @@
 	</div>
 
 	<ul class="list-unstyled components">
-		<li class="active">
+		<li id="doctor">
 			<a href="doctor_dashboard.php">
 				<i class="fas fa-home"></i>
 				Dashboard
 			</a>
 		</li>
 
-		<li>
+		<li id="patient">
 			<a href="doctor_patients.php">
 				<i class="fas fa-copy"></i>
-				Patients
+				ER Transaction
 			</a>
 		</li>
 
