@@ -23,7 +23,10 @@ a:focus {
     text-decoration: none;
     transition: all 0.3s;
 }
-
+.required-field, .required-field2 {
+    border: 1px solid red !important;
+    background-color: #EF8888 !important;
+}
 .navbar {
     padding: 15px 10px;
     background: #fff;

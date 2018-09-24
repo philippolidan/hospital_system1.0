@@ -1,5 +1,6 @@
 <?php
 include('assets/includes/db_connect.php'); 
+
 ?>
 <!DOCTYPE html>
 <html>

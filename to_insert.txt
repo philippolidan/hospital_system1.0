@@ -7,7 +7,6 @@ db.symptom.insert([
 
 {"symptom_id":"1", "name":"Abdominal Pain"},
 {"symptom_id":"2", "name":"Constipation"},
-{"symptom_id":"3", "name":"Infection"},
 {"symptom_id":"4", "name":"Puncture"},
 {"symptom_id":"5", "name":"Burn"},
 {"symptom_id":"6", "name":"Gunshot Wound/s"},
@@ -75,12 +74,8 @@ db.question_list.insert([
 	{
 		"symptom_id":"4",
 		"question":"Level of Contamination",
-		"type": [
-			{"1":"Clean"},
-			{"2":"Contaminated"},
-			{"3":"Infected"},
-			{"4":"Colonized"}
-		]
+		"type": "dropdown",
+		"data" : ["Clean","Contaminated","Infected","Colonized"]
 	},
 
 	{
@@ -92,32 +87,22 @@ db.question_list.insert([
 	{
 		"symptom_id":"5",
 		"question":"Level of Contamination",
-		"type": [
-			{"1":"Clean"},
-			{"2":"Contaminated"},
-			{"3":"Infected"},
-			{"4":"Colonized"}
-		]
+		"type": "dropdown",
+		"data" :["Clean","Contaminated","Infected","Colonized"]
 	},
 
 	{
 		"symptom_id":"5",
 		"question":"Degree of Burn",
-		"type": [
-			{"1":"First Degree"},
-			{"2":"Second Degree"},
-			{"3":"Third Degree"}
-		]
+		"type": "dropdown",
+		"data":["First Degree","Second Degree","Third Degree"]
 	},
 
 	{
 		"symptom_id":"5",
 		"question":"Cause of Burn",
-		"type": [
-			{"1":"Chemical"},
-			{"2":"Electrical"},
-			{"3":"Thermal"}
-		]
+		"type": "dropdown",
+		"data": ["Chemical","Electrical","Thermal"]
 	},
 
 	{
@@ -129,19 +114,19 @@ db.question_list.insert([
 	{
 		"symptom_id":"6",
 		"question":"Body Region Penetrated",
-		"type":"textarea"
+		"type":"text"
 	},
 
 	{
 		"symptom_id":"6",
 		"question":"Exit Wounds",
-		"type":"textarea"
+		"type":"text"
 	},
 
 	{
 		"symptom_id":"6",
 		"question":"Penetrated Trauma Injury",
-		"type":"textare",
+		"type":"text",
 	},
 
 	{
@@ -159,7 +144,7 @@ db.question_list.insert([
 	{
 		"symptom_id":"6",
 		"question":"Penetration Dimension",
-		"type":"textarea"
+		"type":"text"
 	},
 
 	{

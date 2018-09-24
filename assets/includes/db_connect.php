@@ -1,5 +1,5 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/hospital_system/vendor/autoload.php';
+require $_SERVER['DOCUMENT_ROOT'].'/hospital_system1.0/vendor/autoload.php';
 date_default_timezone_set('Asia/Manila');
 class Database
 {
@@ -10,6 +10,13 @@ class Database
 	public function getPatientNumber(){
 		$number = count(iterator_to_array($this->db->patient->find()));
 		return "PT-".str_pad($number + 1, 5, 0, STR_PAD_LEFT);
+	}
+	public function getPatients(){
+		return $this->db->patient->find();
+	}
+	public function getPatient($patient_oid){
+		$patient_oid = new MongoDB\BSON\ObjectId($patient_oid);
+		return $this->db->patient->find(["_id" => $patient_oid]);
 	}
 	public function getSymptoms(){
 		return $this->db->symptom->find();
@@ -29,8 +36,8 @@ class Database
 	public function getTest($id){
 		return $this->db->test_list->find(['test_id' => "$id"]);
 	}
-	public function getPatientTest($patient_oid){
-		return $this->db->lab_test->find(['patient_oid' => "$patient_oid"]);
+	public function getPatientTest($er_id){
+		return $this->db->lab_test->find(['er_id' => "$er_id"]);
 	}
 	public function getQuestions($id){
 		return $this->db->question_list->find(['symptom_id' => "$id"]);
@@ -50,6 +57,24 @@ class Database
 			[
 				[ '$match' => 
 					[ "patient_oid" => $patient_oid ]
+				],
+				['$lookup' =>
+					[
+						"from" => "test_list",
+						"localField" => "test_id",
+						"foreignField" => "test_id",
+						"as" => "test_list"
+					]
+				]
+
+			]
+		);
+	}
+	public function getLabTestByER($er_id){
+		return $this->db->lab_test->aggregate( 
+			[
+				[ '$match' => 
+					[ "er_id" => $er_id ]
 				],
 				['$lookup' =>
 					[
@@ -102,25 +127,33 @@ class Database
 						],
 						"as" => "triage"
 					]
-				]
-
-			]
-		);
-	}
-	public function getPatientER($patient_oid){
-		$patient_oid1 = new MongoDB\BSON\ObjectId($patient_oid);
-		return $this->db->patient->aggregate( 
-			[
-				[ '$match' => 
-					[ "_id" => $patient_oid1 ]
 				],
 				['$lookup' =>
 					[
-						"from" => "er_transaction",
+						"from" => "lab_test",
 						"pipeline" => [
-							[ '$match' => [ "patient_oid" => $patient_oid ]]
+							[ '$match' => [ "er_id" => $id ]]
 						],
-						"as" => "er_transaction"
+						"as" => "lab_test"
+					]
+				]
+			]
+		);
+	}
+	public function getPatientER($er_id,$patient_oid){
+		$er_id1 = new MongoDB\BSON\ObjectId($er_id);
+		return $this->db->er_transaction->aggregate( 
+			[
+				[ '$match' => 
+					[ "_id" => $er_id1 ]
+				],
+				['$lookup' =>
+					[
+						"from" => "patient",
+						"pipeline" => [
+							[ '$match' => [ "_id" =>  new MongoDB\BSON\ObjectId($patient_oid) ]]
+						],
+						"as" => "patient"
 					]
 				],
 
@@ -130,18 +163,24 @@ class Database
 	public function insert_one($data){
 		try{
 			//get patient id
-			$number = count(iterator_to_array($this->db->patient->find()));
-			$patient_id = str_pad($number + 1, 5, 0, STR_PAD_LEFT);
+			if($data["patient_type"] == "existing"){
+				$patient_id = $data['patient_id'];
+				$patient_oid = $data['patient_oid'];
+			}
+			else{
+				$number = count(iterator_to_array($this->db->patient->find()));
+				$patient_id = str_pad($number + 1, 5, 0, STR_PAD_LEFT);
 			//insert patient
-			$patient = 
-			[
-				"patient_id" => $patient_id, "lname"=> $data['lname'], "fname" => $data['fname'],
-				"mname" => $data['mname'], "bdate" => $data['bdate'], "sex" => $data['sex'], 
-				"address" => $data['address']
-			];
-			$patient_oid = "";
-			$result_patient = $this->db->patient->insertOne($patient);
-			$patient_oid = (string) $result_patient->getInsertedId();
+				$patient = 
+				[
+					"patient_id" => $patient_id, "lname"=> $data['lname'], "fname" => $data['fname'],
+					"mname" => $data['mname'], "bdate" => $data['bdate'], "sex" => $data['sex'], 
+					"address" => $data['address']
+				];
+				$patient_oid = "";
+				$result_patient = $this->db->patient->insertOne($patient);
+				$patient_oid = (string) $result_patient->getInsertedId();
+			}
 			//insert triage
 			$triage = 
 			[
@@ -158,11 +197,30 @@ class Database
 				$q_handler[] = array("question_oid"=>$question->_id, "answer"=>$data["$question->_id"], "patient_oid"=> $patient_oid);
 			}
 			$result_squestion = $this->db->symptom_questions->insertMany($q_handler);
+			
+			
+			//insert to er_transaction
+			if(isset($data['bed_no']) && !empty($data['bed_no'])){
+				$er_sdetails = array("admisson_date" => date("F d, Y h:i A"),"bed_no" => $data['bed_no']);
+				//update bed status;
+				$update = $this->db->bed_list->updateOne( ['bed_no' => $data['bed_no']], ['$set' => ['status' => 'Occupied']]);
+			}
+			else{
+				$er_sdetails = [];
+			}
+			$er_details = 
+			[
+				"patient_oid" => $patient_oid,"emergency_code" => $data['emergency_code'], "patient_id" => $patient_id, "assessment_date" => $data['assessment_date'] , "date_created" => date("F d, Y h:i A"), "status" => "ongoing", "wlt" => $data['wlt']
+			];
+			$er_details = array_merge($er_details, $er_sdetails);
+			$result_er = $this->db->er_transaction->insertOne($er_details);
+
+			$er_id = (string) $result_er->getInsertedId();
 			if($data['wlt'] == 0){// if with labtest
 				//insert to laborty  test
 				$lab_test = [];
 				foreach ($data['test'] as $test) {
-					$lab_test[] =  array("test_id"=>$test, "patient_oid"=>$patient_oid, "status"=> "Ongoing", "date_completed" => "n/a");
+					$lab_test[] =  array("test_id"=>$test, "patient_oid"=>$patient_oid,"er_id" => $er_id, "status"=> "Ongoing", "date_completed" => "n/a");
 				}
 				$result_labtest = $this->db->lab_test->insertMany($lab_test);
 				$labtest_ids = $result_labtest->getInsertedIds();
@@ -193,23 +251,7 @@ class Database
 					$result_urinalysis = $this->db->urinalysis->insertMany($u);
 				}
 			}
-			
-			//insert to er_transaction
-			if(isset($data['bed_no']) && !empty($data['bed_no'])){
-				$er_sdetails = array("admisson_date" => date("F d, Y h:i A"),"bed_no" => $data['bed_no']);
-				//update bed status;
-				$update = $this->db->bed_list->updateOne( ['bed_no' => $data['bed_no']], ['$set' => ['status' => 'Occupied']]);
-			}
-			else{
-				$er_sdetails = [];
-			}
-			$er_details = 
-			[
-				"patient_oid" => $patient_oid,"emergency_code" => $data['emergency_code'], "patient_id" => $patient_id, "assessment_date" => $data['assessment_date'] , "date_created" => date("F d, Y h:i A"), "status" => "ongoing", "wlt" => $data['wlt']
-			];
-			$er_details = array_merge($er_details, $er_sdetails);
-			$result_er = $this->db->er_transaction->insertOne($er_details);
-			return array(true,$patient_oid);
+			return array(true,$patient_oid,$er_id);
 		}
 		catch(Exception $e){
 			return "Error: ".$e->getMessage();
@@ -257,6 +299,8 @@ class Database
 	}
 	public function bill($data){
 		$date_completed = date("m/d/Y H:i:s");
+		$msg = [];
+		$tt = [];
 		foreach($this->getER($data['patient_oid']) as $er){
 			$update = $this->db->er_transaction->updateOne( 
 				['patient_oid' => $data['patient_oid']], 
@@ -264,7 +308,7 @@ class Database
 					['status' => "Done",'date_completed' => $date_completed]
 				]
 			);
-			$lab_test =$this->getLabTestByPatient($data['patient_oid']);
+			$lab_test =$this->getLabTestByER((string)$er->_id);
 			foreach ($lab_test as $lab) {
 				$patient_oid = $lab->patient_oid;
 				$er_transaction = $this->getER($patient_oid);
@@ -276,6 +320,18 @@ class Database
 						]
 					);
 				}
+				if($lab->test_id == 1){ //fecalysis
+					foreach($this->getFecalysis((string)$lab->_id) as $fec){
+						$msgg = "Fecalysis Result \nColor:".$fec->color."\nConsistency:".$fec->consistency."\nPus:".$fec->pus."\nRed Blood Cell:".$fec->rbc."\nOthers:".$fec->others."\nInterpretation:".$fec->interpretation;
+						$msg[] = $msgg;
+					}
+				}
+				else if($lab->test_id == 2){ //urinalysis
+					foreach($this->getUrinalysis($data['patient_oid']) as $uri){
+						$msgg = "Urinalysis Result \nColor:".$uri->color."\nTransparency:".$uri->transparency."\nHemoglobin:".$uri->hemoglobin."\nHematocrit:".$uri->hematocrit."\nWhite Blood Cell:".$uri->wbc."\nRed Blood Cell:".$uri->rbc."\nPlatelet Count:".$uri->platelet_count."\nPus:".$uri->pus."\nInterpretation:".$uri->interpretation;
+						$msg[] = $msgg;
+					}
+				}
 			}
 			$bill = 
 			[
@@ -284,7 +340,10 @@ class Database
 				"date" => $date_completed
 			];
 			$result = $this->db->bill->insertOne($bill);
-			return true;
+
+		}
+		foreach($this->getPatient($data['patient_oid']) as $patient){
+			return array(true,$patient->contact,$msg);
 		}
 	}
 	public function loginUser($email, $password){

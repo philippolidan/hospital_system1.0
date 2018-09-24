@@ -185,9 +185,54 @@ $db = new Database;
 									</div>
 
 									<div class="col-lg-12">
-										<div class="form-group">
-											<label>Address</label>
-											<textarea class="form-control form-control1 to-v" name="address" readonly></textarea>
+										<hr>
+
+										<h6><strong>Contact Infomation</strong></h6>
+
+										<div class="row">
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-group">
+													<label>Address</label>
+													<textarea class="form-control form-control1 to-v" name="address" readonly></textarea>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Contact Number</label>
+													<input type="text" name="mobile_no" class="form-control to-v">
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<hr>
+
+										<h6><strong>Health Maintenance Organization (HMO)</strong></h6>
+
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Company Name</label>
+													<input type="text" class="form-control" name="cname">
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Account Number</label>
+													<input type="text" class="form-control" name="accname">
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Card Number</label>
+													<input type="text" class="form-control" name="cardno">
+												</div>
+											</div>
+
 										</div>
 									</div>
 
@@ -628,24 +673,24 @@ $db = new Database;
 		$("#ecode").select2({"width":"100%", templateResult: formatColor});
 		$(".select3").select2({"width" :"100%"});
             // Step show event
-        $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
+            $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
                //alert("You are on step "+stepNumber+" now");
-            if(stepPosition === 'first'){
+               if(stepPosition === 'first'){
                	$("#prev-btn").addClass('disabled');
-            }else if(stepPosition === 'final'){
+               }else if(stepPosition === 'final'){
                	$("#next-btn").addClass('disabled');
-            }
-            if(stepNumber == 5){
+               }
+               if(stepNumber == 5){
                		//disable all form in step 1-4
-               	$("#finish-button").removeClass("d-none");
-               	$("#new").removeClass("d-none");
-            }
-            else{
-           		$(".sw-btn-prev").removeClass('d-none');
-           		$("#prev-btn").removeClass('disabled');
-           		$("#next-btn").removeClass('disabled');
-           	}
-            });
+               		$("#finish-button").removeClass("d-none");
+               		$("#new").removeClass("d-none");
+               	}
+               	else{
+               		$(".sw-btn-prev").removeClass('d-none');
+               		$("#prev-btn").removeClass('disabled');
+               		$("#next-btn").removeClass('disabled');
+               	}
+               });
 
         // Toolbar extra buttons
         var btnFinish = $('<button id="finish-button"></button>').text('Finish')
@@ -659,7 +704,7 @@ $db = new Database;
            	// $("input[name='confirm_type']").val("y/n/1");
            	// $("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
            	// $("#confirm").modal('show');
-        });
+           });
         var btnCancel = $('<button id="new"></button>').text('New Patient')
         .addClass('btn btn-danger d-none')
         .on('click', function(){ $('#smartwizard').smartWizard("reset"); location.reload(); });
@@ -667,36 +712,36 @@ $db = new Database;
 
         // Smart Wizard
         $('#smartwizard').smartWizard({
-           	selected: 0,
-           	keyNavigation: false,
-           	theme: 'circles',
-           	transitionEffect:'fade',
-           	showStepURLhash: true,
-           	toolbarSettings: 
-           	{
-           		toolbarPosition: 'both',
-           		toolbarButtonPosition: 'end',
-           		toolbarExtraButtons: [btnFinish, btnCancel]
-          	}
+        	selected: 0,
+        	keyNavigation: false,
+        	theme: 'circles',
+        	transitionEffect:'fade',
+        	showStepURLhash: true,
+        	toolbarSettings: 
+        	{
+        		toolbarPosition: 'both',
+        		toolbarButtonPosition: 'end',
+        		toolbarExtraButtons: [btnFinish, btnCancel]
+        	}
         });
     });
-    function e_d(val){
-    	$("input[name='lname'").attr("readonly",val);
-    	$("input[name='mname'").attr("readonly",val);
-    	$("input[name='fname'").attr("readonly",val);
-    	$("input[name='bdate'").attr("readonly",val);
-    	$("textarea[name='address'").attr("readonly",val);
-    	$("#sex1").attr("disabled",val);
-    	$("#sex2").attr("disabled",val);
-    }
-    $("#add_patient").on('click',function(){
-    	var val = $("select[name='patient_list'").val();
-    	if(val != null && val != "new"){
-    		e_d(true);
-    		var patient_oid = $("select[name='patient_list'").val();
+	function e_d(val){
+		$("input[name='lname'").attr("readonly",val);
+		$("input[name='mname'").attr("readonly",val);
+		$("input[name='fname'").attr("readonly",val);
+		$("input[name='bdate'").attr("readonly",val);
+		$("textarea[name='address'").attr("readonly",val);
+		$("#sex1").attr("disabled",val);
+		$("#sex2").attr("disabled",val);
+	}
+	$("#add_patient").on('click',function(){
+		var val = $("select[name='patient_list'").val();
+		if(val != null && val != "new"){
+			e_d(true);
+			var patient_oid = $("select[name='patient_list'").val();
 			$("input[name='patient_oid']").val(patient_oid);
-    		$("input[name='patient_type']").val("existing");
-    		$.ajax({
+			$("input[name='patient_type']").val("existing");
+			$.ajax({
 				url:"assets/includes/class_handler.php",
 				type: "POST",
 				data: {id:11,patient_oid:patient_oid},
@@ -719,19 +764,19 @@ $db = new Database;
 
 				}
 			});
-    	}
-    	else if(val == "new"){
-    		$("input[name='patient_type']").val("new");
-    		$("#patient_no").val("<?php echo $db->getPatientNumber()?>");
-    		$("#form-step-1")[0].reset();
-    		e_d(false);
-    	}
-    });
-    $("#remove_patient").on('click',function(){
-    	var body = "Are you sure to remove this patient?";
-    	var type = "y/n/p";
-    	var button = ["yes","no"];
-    	open_alert(body,type,button);
+		}
+		else if(val == "new"){
+			$("input[name='patient_type']").val("new");
+			$("#patient_no").val("<?php echo $db->getPatientNumber()?>");
+			$("#form-step-1")[0].reset();
+			e_d(false);
+		}
+	});
+	$("#remove_patient").on('click',function(){
+		var body = "Are you sure to remove this patient?";
+		var type = "y/n/p";
+		var button = ["yes","no"];
+		open_alert(body,type,button);
     	// $("#confirm_body").html("Are you sure to remove this patient?");
     	// $("input[name='confirm_type']").val("y/n/p");
     	// $("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
@@ -858,7 +903,7 @@ $db = new Database;
 		else if(confirm_type == "y/n/p"){
 			if(val == "yes"){
 				$("#form-step-1")[0].reset();
-    			e_d(true);
+				e_d(true);
 				$("#confirm").modal('hide');
 			}
 			else{
@@ -874,7 +919,7 @@ $db = new Database;
 		var form_one = $.merge(form_one,form_two);
 		var form_two = $.merge(form_three,form_four);
 		var form_data = $.merge(form_one,form_two);
-    	var patient_type = $("input[name='patient_type']").val();
+		var patient_type = $("input[name='patient_type']").val();
 		form_data[form_data.length] = { name: "id", value: 4 };
 		form_data[form_data.length] = { name: "wlt", value: wlt};
 		form_data[form_data.length] = { name: "patient_type", value: patient_type};
@@ -1020,7 +1065,7 @@ $db = new Database;
 		$("#confirm_body").html(body);
 		$("input[name='confirm_type']").val(type);
 		if(button.length > 0)
-		$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\""+button[0]+"\")' class='btn btn-primary' value='"+button[0].charAt(0).toUpperCase()+ button[0].slice(1)+"'><input type='button' onclick='confirm_click(this,\""+button[1]+"\")' class='btn btn-danger' value='"+button[1].charAt(0).toUpperCase()+ button[1].slice(1)+"'>");
+			$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\""+button[0]+"\")' class='btn btn-primary' value='"+button[0].charAt(0).toUpperCase()+ button[0].slice(1)+"'><input type='button' onclick='confirm_click(this,\""+button[1]+"\")' class='btn btn-danger' value='"+button[1].charAt(0).toUpperCase()+ button[1].slice(1)+"'>");
 		$("#confirm").modal('show');
 		if(type == "alert"){
 			setTimeout(function(){$("#confirm").modal('hide');},1000);

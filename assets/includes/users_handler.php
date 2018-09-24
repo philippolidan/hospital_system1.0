@@ -15,6 +15,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 		json_encode($result);
 
 		session_start();
+		
 		$_SESSION['user_id'] = $result['id'];
 		$_SESSION['role_id'] = $result['role_id'];
 
