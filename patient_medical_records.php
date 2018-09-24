@@ -1,4 +1,4 @@
-<?php include('assets/parts/header.php'); ?>
+<?php include('assets/parts/header.php'); include('assets/parts/session_page.php');?>
 <?php include('assets/parts/navbar.php'); ?>
 
 <div class="container mt-5 mb-5 bg-white">

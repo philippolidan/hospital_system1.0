@@ -1,5 +1,4 @@
-<?php 
-include('assets/parts/header.php');
+<?php  include('assets/parts/header.php'); include('assets/parts/session_page.php');
 $db = new Database;
 // foreach($db->getPatientERById("5ba35679b8dde11e54001970","5ba35679b8dde11e54001968") as $er){
 // 	foreach($er->patient as $patient){
@@ -99,14 +98,13 @@ $db = new Database;
 			data: {id:10, er_id : val[0],patient_oid:val[1] },
 			success: function(data){
 				var data = JSON.parse(data);
-				console.log(data);
 				$("#pname").text(data[0]);
-				$("#p_id").text(data[1]);
+				$("#p_id").text("PT-"+data[1]);
 				$("#a_date").text(data[2]);
 				$("#bp").text(data[3]);
 				$("#breathing").text(data[4]);
 				$("#pulse").text(data[5]);
-				$("#temp").text(data[6]);
+				$("#temp").text(data[6]+"°");
 				$("#isallergic").text(data[7]);
 				$("#hasmedication").text(data[9]);
 				if(data[8] == "" && data[10] == ""){
@@ -116,6 +114,12 @@ $db = new Database;
 				else{
 					$("#allergies").text(data[8]);
 					$("#medications").text(data[10]);
+				}
+				if(data[12].length > 0){
+					console.log(data[12].length);
+					for(var i = 0; i<data[12].length; i++){
+						$("#lab_test").html(data[12][i]);
+					}
 				}
 				$("#img").attr("src","assets/img/avatars/"+data[11]+".svg")
 				$("#"+modal).modal("show");
