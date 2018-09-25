@@ -26,6 +26,10 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 		if ($result['role_id'] == 5) {
 			header('Location: ../../patient_dashboard.php');
 		}
+
+		if ($result['role_id'] == 6) {
+			header('Location: ../../laboratory_dashboard.php');
+		}
 		
 	}
 

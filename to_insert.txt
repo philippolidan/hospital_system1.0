@@ -13,6 +13,7 @@ db.symptom.insert([
 {"symptom_id":"7", "name":"Laceration"},
 {"symptom_id":"8", "name":"Fracture"},
 {"symptom_id":"9", "name":"Dislocation"},
+{"symptom_id":"10", "name":"Fever"}
 
 ])
 
@@ -242,6 +243,12 @@ db.question_list.insert([
 		"question":"Inability to move the joint?",
 		"type":"y/n"
 	},
+
+	{
+		"symptom_id":"10",
+		"question":"Body Temperature",
+		"type":"text"
+	}
 
 ])
 

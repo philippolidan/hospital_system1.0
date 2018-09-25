@@ -1,8 +1,8 @@
 <!-- Sidebar  -->
 <nav id="sidebar" class="active">
 	<div class="sidebar-header">
-		<h3>ALPAX | Hospital and Medical Center</h3>
-		<strong><img src="assets/img/icons/pharmacy.svg" style="height: 30px; width: 100%"></strong>
+		<h3><img src="assets/img/icons/symphony icon text.svg" style="height: 50px; width: 100%"></h3>
+		<strong><img src="assets/img/icons/symphony.svg" style="height: 50px; width: 100%"></strong>
 	</div>
 
 	<ul class="list-unstyled components">

@@ -44,4 +44,6 @@
 			$('#sidebar').toggleClass('active');
 		});
 	});
+
+
 </script>

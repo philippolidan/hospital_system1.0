@@ -50,7 +50,7 @@ $db = new Database;
 							<th>Patient Name</th>
 							<th>Status</th>
 							<th width="10%">Actions</th>
-						</tr>
+						</tr> b 
 					</thead>
 					<tbody>
 						<?php

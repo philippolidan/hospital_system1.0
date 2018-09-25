@@ -132,7 +132,9 @@ $db = new Database;
 
 											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 												<div class="form-group">
-													<input type="text" class="form-control form-control1 to-v" name="lname" placeholder="Last Name" readonly>
+													<div class="autocomplete" style="width: 100%">
+														<input id="myInput" type="text" class="form-control form-control1 to-v" name="lname" placeholder="Last Name" readonly autocomplete="off">
+													</div>
 												</div>
 											</div>
 
@@ -375,9 +377,17 @@ $db = new Database;
 						<form id="form-step-3" >
 
 							<div class="col-lg-12 mt-4 mb-4">
-								<h3 class="border-bottom border-gray pb-2">Symptoms</h3>
+								<div class="d-flex border-bottom border-gray ">
+									<div>
+										<h3 class="pb-2">Symptoms</h3>
+									</div>
 
-								<div class="row mt-2 mb-2">
+									<div class="ml-auto">
+										<button class="btn btn-sm btn-primary"><i class="fa fa-bed"></i> Request for Admission</button>
+									</div>
+								</div>
+
+								<div class="row mt-4 mb-2">
 									<div class="col-lg-10 col-md-10 col-xs-10 col-sm-10">
 										<div class="form-group">
 											<select name='symptom' class="select2 to-d required select3 to-v" style="width: 100%;">
@@ -410,8 +420,13 @@ $db = new Database;
 							<div class="col-lg-12 mt-4 mb-4">
 
 								<div class="d-flex border-bottom border-gray mb-4">
-									<div><h3 class="pb-2">Diagnostic Tests</h3></div>
+									<div>
+										<h3 class="pb-2">Diagnostic Tests</h3>
+									</div>
 
+									<div class="ml-auto">
+										<button class="btn btn-sm btn-primary"><i class="fa fa-bed"></i> Request for Admission</button>
+									</div>
 									<!-- <div class="ml-auto">
 										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 											<div class="d-flex">
@@ -985,7 +1000,7 @@ $db = new Database;
 		}
 
 		if (a == "external"){
-			$('#code_status').html('External Triage');
+			$('#code_status').html('External');
 		}
 
 		if (a == "grey"){
@@ -995,7 +1010,7 @@ $db = new Database;
 		}
 
 		if (a == "internal"){
-			$('#code_status').html('Internal Triage');
+			$('#code_status').html('Internal');
 		}
 
 		if (a == "orange"){
@@ -1011,7 +1026,7 @@ $db = new Database;
 		}
 
 		if (a == "rapid"){
-			$('#code_status').html('Rapid Response Team');
+			$('#code_status').html('RRT');
 		}
 
 		if (a == "red"){
@@ -1336,6 +1351,7 @@ $db = new Database;
 				}
 			});
 		});
+
 	</script>
 
 	</html>
