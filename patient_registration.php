@@ -1,6 +1,6 @@
 <?php include('assets/parts/header.php'); include('assets/parts/session_page.php');
 $db = new Database;
-
+echo $_SERVER['QUERY_STRING'];
 ?>
 <div class="col-lg-12">
 	<div class="row">
@@ -200,7 +200,7 @@ $db = new Database;
 											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 												<div class="form-group">
 													<label>Contact Number</label>
-													<input type="text" name="mobile_no" class="form-control to-v">
+													<input type="text" name="mobile_no" class="form-control to-v" readonly>
 												</div>
 											</div>
 										</div>
@@ -215,21 +215,21 @@ $db = new Database;
 											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 												<div class="form-group">
 													<label>Company Name</label>
-													<input type="text" class="form-control" name="cname">
+													<input type="text" class="form-control" name="cname" readonly>
 												</div>
 											</div>
 
 											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 												<div class="form-group">
 													<label>Account Number</label>
-													<input type="text" class="form-control" name="accname">
+													<input type="text" class="form-control" name="accnumber" readonly>
 												</div>
 											</div>
 
 											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 												<div class="form-group">
 													<label>Card Number</label>
-													<input type="text" class="form-control" name="cardno">
+													<input type="text" class="form-control" name="cardno" readonly>
 												</div>
 											</div>
 
@@ -437,7 +437,7 @@ $db = new Database;
 
 										<!-- <h6>Recommended Tests</h6> -->
 
-										<table class="table hover responsive">
+										<table class="table hover" style="width: 100%"> 
 											<thead>
 												<tr>
 													<th width="5%"></th>
@@ -480,7 +480,7 @@ $db = new Database;
 
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-										<table class="table hover table-responsive" id="tlab_test">
+										<table class="table hover" id="tlab_test" style="width: 100%">
 											<thead>
 												<tr>
 													<th width="40%">Name</th>
@@ -644,6 +644,10 @@ $db = new Database;
 <?php include('assets/modals/m_select_patient_bed.php'); ?>
 
 <script type="text/javascript">
+	var hash = window.location.hash;
+	if(hash != "#step-1"){
+		window.location = "patient_registration.php#step-1";
+	}
 	function formatColor (color) {
 		if (!color.id || color.id == "clear" || color.id == "external" || color.id == "internal" || color.id == "rapid" || color.id == "Select Emergency Code") {
 			return color.text;
@@ -656,9 +660,7 @@ $db = new Database;
 	};
 	$(document).ready(function(){
 
-		$(".table").DataTable({
-			responsive: true
-		});
+		$(".table").DataTable();
 
 		$('#billing_table').DataTable({
 			"paging":   false,
@@ -696,10 +698,16 @@ $db = new Database;
         var btnFinish = $('<button id="finish-button"></button>').text('Finish')
         .addClass('btn btn-info d-none')
         .on('click', function(){
-        	var body = "Are you sure to finish this transaction?";
-        	var type = "y/n/1";
-        	var button = ["yes","no"];
-        	open_alert(body,type,button);
+        	var checker = $("input[name='bill_checker']").val();
+			if(checker == 0){
+	        	var body = "Are you sure to finish this transaction?";
+	        	var type = "y/n/1";
+	        	var button = ["yes","no"];
+	        	open_alert(body,type,button);
+	        }
+	        else{
+	        	print_button("confirm");
+	        }
            	// $("#confirm_body").html("Are you sure to finish this transaction?");
            	// $("input[name='confirm_type']").val("y/n/1");
            	// $("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
@@ -716,7 +724,7 @@ $db = new Database;
         	keyNavigation: false,
         	theme: 'circles',
         	transitionEffect:'fade',
-        	showStepURLhash: true,
+        	showStepURLhash: false,
         	toolbarSettings: 
         	{
         		toolbarPosition: 'both',
@@ -725,11 +733,18 @@ $db = new Database;
         	}
         });
     });
+    function remove_symptom(id){
+    	$("#"+id).remove();
+    }
 	function e_d(val){
 		$("input[name='lname'").attr("readonly",val);
 		$("input[name='mname'").attr("readonly",val);
 		$("input[name='fname'").attr("readonly",val);
 		$("input[name='bdate'").attr("readonly",val);
+		$("input[name='mobile_no'").attr("readonly",val);
+		$("input[name='cname'").attr("readonly",val);
+		$("input[name='accnumber'").attr("readonly",val);
+		$("input[name='cardno'").attr("readonly",val);
 		$("textarea[name='address'").attr("readonly",val);
 		$("#sex1").attr("disabled",val);
 		$("#sex2").attr("disabled",val);
@@ -747,11 +762,15 @@ $db = new Database;
 				data: {id:11,patient_oid:patient_oid},
 				success: function(data){
 					var data = JSON.parse(data);
-					$("#patient_no").text("PT-"+data[5]);
+					$("#patient_no").text(data[5]);
 					$("input[name='lname'").val(data[0]);
 					$("input[name='mname'").val(data[1]);
 					$("input[name='fname'").val(data[2]);
 					$("input[name='bdate'").val(data[6]);
+					$("input[name='mobile_no'").val(data[7]);
+					$("input[name='cname'").val(data[8]);
+					$("input[name='accnumber'").val(data[9]);
+					$("input[name='cardno'").val(data[10]);
 					$("textarea[name='address'").val(data[3]);
 					if(data[4] == "male"){
 						$("#sex1").attr("checked",true);
@@ -767,7 +786,7 @@ $db = new Database;
 		}
 		else if(val == "new"){
 			$("input[name='patient_type']").val("new");
-			$("#patient_no").val("<?php echo $db->getPatientNumber()?>");
+			$("#patient_no").text("<?php echo $db->getPatientNumber()?>");
 			$("#form-step-1")[0].reset();
 			e_d(false);
 		}
@@ -926,7 +945,7 @@ $db = new Database;
 		console.log(patient_type);
 		if(patient_type == "existing"){
 			var patient_oid = $("input[name='patient_oid']").val();
-			var patient_id = $("#patient_no").val();
+			var patient_id = $("#patient_no").text();
 			form_data[form_data.length] = { name: "patient_oid", value: patient_oid};
 			form_data[form_data.length] = { name: "patient_id", value: patient_id};
 		}
@@ -1202,6 +1221,7 @@ $db = new Database;
 				success: function(data){
 					console.log(data);
 					if(data == true){
+						 $("input[name='bill_checker']").val(1);
 						print_button("confirm");
 					}
 				}

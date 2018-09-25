@@ -144,9 +144,14 @@
 										</div> -->
 
 									</div>
-
 								</div>
-
+								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+									<h6 class="bg-info text-light p-2 small mt-2">Symptoms</h6>
+									<div class="row p-2">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="symptom">
+										</div>
+									</div>
+								</div>
 								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 									<h6 class="bg-info text-light p-2 small mt-2">Laboratory Test</h6>
 									<div class="row p-2">

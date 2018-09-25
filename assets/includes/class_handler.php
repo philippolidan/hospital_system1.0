@@ -13,7 +13,8 @@ if(isset($_POST['id'])){
 				$title = $symptom->name;
 			}
 			$response ="<div id='$symptom_id' class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>";
-			$response .= "<h6>$title</h6><hr>";
+			$response .= "<div class='d-flex'><div><h6>$title</h6></div><div class='ml-auto'><a onclick='remove_symptom($symptom_id)' style='cursor: pointer;' class='fa fa-times text-danger'></a></div></div><hr>";
+			$response .= "";
 			foreach ($db->getQuestions($symptom_id) as $question) {
 				$response.="<div class='form-group'>";
 				$type = $question->type;
@@ -97,6 +98,7 @@ if(isset($_POST['id'])){
 		$labtest_id = (string)$_POST['test_id'];
 		//check if Done
 		$checker = 0;
+		$response=[];
 		foreach($db->getLabTest($labtest_id) as $lab){
 			if($lab->status =='Done'){
 				$checker = 1;
@@ -142,6 +144,174 @@ if(isset($_POST['id'])){
 			else
 				$response = ["Color","Transparency","Hemoglobin","Hematocrit","White Blood Cell","Red Blood Cell","Platelet Count","Pus"];
 		}
+		else if($type == "Kidney, Ureter and Bladder X-ray" || $type == 3){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getKUBXray($labtest_id) as $res) {
+					$response =
+					[
+						"X-ray image" , $res->xray_image,
+						"Findings" ,$res->findings,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["X-ray image","Findings"];
+		}
+		else if($type == "Chest X-ray" || $type == 4){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getChestXray($labtest_id) as $res) {
+					$response =
+					[
+						"X-ray image" , $res->xray_image,
+						"Findings" ,$res->findings,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["X-ray image","Findings"];
+		}
+		else if($type == "Lungs X-ray" || $type == 5){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getLungsXray($labtest_id) as $res) {
+					$response =
+					[
+						"X-ray image" , $res->xray_image,
+						"Findings" ,$res->findings,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["X-ray image","Findings"];
+		}
+		else if($type == "Abdomen X-ray" || $type == 6){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getAbdomenXray($labtest_id) as $res) {
+					$response =
+					[
+						"X-ray image" , $res->xray_image,
+						"Indication" , $res->indication,
+						"Comparison" , $res->comparison,
+						"Findings" ,$res->findings,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["X-ray image","Indication","Comparison","Findings"];
+		}
+		else if($type == "Complete Blood Count (CBC)" || $type == 7){//Complete Blood Count (CBC)
+			if($checker == 1){
+				foreach ( $db->getCBC($labtest_id) as $res) {
+					$response =
+					[
+						"White Blood Cell" , $res->wbc_count,
+						"Red Blood Cell" , $res->rbc_count,
+						"Hemoglobin" , $res->hemoglobin,
+						"Hematocrit" ,$res->hematocrit,
+						"MCV" ,$res->mcv,
+						"MCHC" ,$res->mchc,
+						"RDW" ,$res->rdw,
+						"Platelets" ,$res->platelets,
+						"Neutrophils" ,$res->neutrophils,
+						"Lymphs" ,$res->lymphs,
+						"Monocytes" ,$res->monocytes,
+						"EOS" ,$res->eos,
+						"BASO" ,$res->baso,
+						"Immature Granulocytes" ,$res->immature_granulocytes,
+						"Immature Grans" ,$res->immature_grans,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["White Blood Cell","Red Blood Cell","Hemoglobin","Hematocrit","MCV","MCHC","RDW","Platelets","Neutrophils","Lymphs","Monocytes","EOS","BASO","Immature Granulocytes","Immature Grans"];
+		}
+		else if($type == "Computed Tomography Scan (CT Scan)" || $type == 8){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getCTScan($labtest_id) as $res) {
+					$response =
+					[
+						"CT Scan image" , $res->ct_scan_image,
+						"Indication" , $res->indication,
+						"Comparison" , $res->comparison,
+						"Technique" , $res->technique,
+						"Findings" ,$res->findings,
+						"Impression" , $res->impression,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["CT Scan image","Indication","Comparison","Technique","Impression","Findings"];
+		}
+		else if($type == "Magnetic Resonance Imaging Scan (MRI Scan)" || $type == 9){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getMRIScan($labtest_id) as $res) {
+					$response =
+					[
+						"MRI Scan image" , $res->mri_scan_image,
+						"Indication" , $res->indication,
+						"Comparison" , $res->comparison,
+						"Technique" , $res->technique,
+						"Impression" , $res->impression,
+						"Findings" ,$res->findings,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["CT Scan image","Indication","Comparison","Technique","Impression","Findings"];
+		}
+		else if($type == "Sonography (Ultrasound)" || $type == 10){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getUltrasound($labtest_id) as $res) {
+					$response =
+					[
+						"Ultrasound image" , $res->ultrasound_image,
+						"Body Parts" , $res->body_parts,
+						"Impression" , $res->impression,
+						"Conclusion" , $res->conclusion,
+						"Findings" ,$res->findings,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["Ultrasound image","Body Parts","Impression","Conclusion","Findings"];
+		}
+		else if($type == "Electrocardiogram (ECG)" || $type == 11){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getECG($labtest_id) as $res) {
+					$response =
+					[
+						"ECG image" , $res->ecg_image,
+						"Impression" , $res->impression,
+						"Conclusion" , $res->conclusion,
+						"Findings" ,$res->findings,
+						"interpretation" , $res->interpretation
+					];
+				}
+			}
+			else
+				$response = ["ECG image","Impression","Conclusion","Findings"];
+		}
+		else if($type == "Fasting Blood Sugar (FBS Test / Glucose Test)" || $type == 12){//urinalysis
+			if($checker == 1){
+				foreach ( $db->getFBSugar($labtest_id) as $res) {
+					$response =
+					[
+						"Result" , $res->result,
+						"Flag" , $res->flag,
+						"Impression" , $res->impression,
+					];
+				}
+			}
+			else
+				$response = ["Result","Flag","Impression"];
+		}
 		echo json_encode(array($checker,$response));
 	}
 	else if($id == 7){
@@ -185,8 +355,7 @@ if(isset($_POST['id'])){
 			for($i = 0; $i<$c;$i++){
 				$status= $sms->sendSMS_orderSuccessful($result[1],$result[2][$i]);
 			}
-			if($status == "Message Sent!")
-				echo true;
+			echo true;
 		}
 	}
 	else if($id == 10){
@@ -247,20 +416,14 @@ if(isset($_POST['id'])){
 			$fname = $patient->fname;
 			$address = $patient->address;
 			$bdate = $patient->bdate;
+			$contact = $patient->contact;
+			$hmo_cname = $patient->HMO_Company_name;
+			$hmo_accno = $patient->HMO_acc_no;
+			$hmo_cardno = $patient->HMO_card_no;
 			$sex = $patient->sex;
 			$patient_id = "PT-".$patient->patient_id;
-			echo json_encode(array($lname,$mname,$fname,$address,$sex,$patient_id,$bdate));
+			echo json_encode(array($lname,$mname,$fname,$address,$sex,$patient_id,$bdate,$contact,$hmo_cname,$hmo_accno,$hmo_cardno));
 		}
-	}
-	else if($id == 12){
-		$response =[];
-		if($_POST['test_id'] == 1){//fecalysis
-			foreach($db->getFecalysis($_POST['labtest_id']) as $labtest){
-
-			}
-		}
-
-		echo json_encode($response);
 	}
 }
 

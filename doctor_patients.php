@@ -46,7 +46,8 @@ $db = new Database;
 				<table class="table" style="width: 100%">
 					<thead>
 						<tr>
-							<th>Patient ID</th>
+							<th>Transaction No.</th>
+							<th>Patient ID.</th>
 							<th>Patient Name</th>
 							<th>Status</th>
 							<th width="10%">Actions</th>
@@ -56,7 +57,8 @@ $db = new Database;
 						<?php
 							foreach($db->getERS() as $er){ ?>
 								<tr>
-									<td>PT - <?php echo $er->patient_id?></td>
+									<td>ER-<?php echo $er->er_no?></td>
+									<td><?php echo $er->patient_id?></td>
 									<?php foreach($er->patient as $patient){ ?>
 									<td><?php echo $patient->lname.", ".$patient->fname." ".$patient->mname?></td>
 									<?php }?>
@@ -118,7 +120,7 @@ $db = new Database;
 				if(data[12].length > 0){
 					console.log(data[12].length);
 					for(var i = 0; i<data[12].length; i++){
-						$("#lab_test").html(data[12][i]);
+						$("#lab_test").append(data[12][i]);
 					}
 				}
 				$("#img").attr("src","assets/img/avatars/"+data[11]+".svg")
@@ -126,4 +128,7 @@ $db = new Database;
 			}
 		});
 	}
+	$('#m_patient_profile').on('hidden.bs.modal', function () {
+		$("#lab_test").html("");
+	});
 </script>

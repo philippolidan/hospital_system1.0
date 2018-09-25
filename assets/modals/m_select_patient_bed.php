@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="m_select_patient_bed" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-fluid" role="document">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalCenterTitle"><span id="test_name">Assign Hospital Bed</span></h5>
@@ -10,7 +10,7 @@
 			</div>
 
 			<div class="modal-body">
-				<div class="col-lg-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 					<table id="bed_table" class="table hover table-responsive" style="width: 100%">
 						<thead>
@@ -40,5 +40,4 @@
 </div>
 
 <script type="text/javascript">
-
 </script>

@@ -80,7 +80,7 @@
 
 								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 
-									<h6 class="pb-2 border-bottom bottom-gray"><strong>Interpretation</strong></h6>
+									<h6 class="pb-2 border-bottom bottom-gray" id="test_title2"><strong>Interpretation</strong></h6>
 
 									<div class="form-group" id="test_interpretation">
 										<textarea class="form-control" name="interpretation"></textarea>
