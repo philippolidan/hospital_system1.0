@@ -1,5 +1,5 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/hospital_system/vendor/autoload.php';
+require $_SERVER['DOCUMENT_ROOT'].'/hospital_system1.0/vendor/autoload.php';
 date_default_timezone_set('Asia/Manila');
 class Database
 {
@@ -246,5 +246,15 @@ class Database
 			return true;
 		}
 	}
+
+public function loginUser($email, $password){
+		$result = $this->db->users->findOne(array("email" => $email, "salt" => $password));
+		return $result;
+	}
+
+	
 }
+
+
 ?>
+
