@@ -1,4 +1,31 @@
-<?php include('assets/parts/header.php'); ?>
+<?php include('assets/parts/header.php');
+$db = new Database;
+session_start();
+if(isset($_SESSION['user_id'])){
+	$result = $db->loginUserById($_SESSION['user_id']);
+	if($result){
+		if ($result['role_id'] == 4) {
+			echo "<script>window.location='doctor_dashboard.php'</script>";
+		}
+
+		if ($result['role_id'] == 5) {
+			echo "<script>window.location='patient_dashboard.php'</script>";
+		}
+	}
+	
+	// if(count($result) > 0){
+	// 	foreach($result as $res){
+	// 		echo 1;
+	// 		// if ($res->role_id == 4) {
+	// 		// 	header('Location: ../../doctor_dashboard.php');
+	// 		// }
+
+	// 		// if ($res->role_id == 5) {
+	// 		// 	header('Location: ../../patient_dashboard.php');
+	// 		// }
+	// 	}
+	// }
+} ?>
 
 <link rel="stylesheet" type="text/css" href="assets/css/login_style.css">
 

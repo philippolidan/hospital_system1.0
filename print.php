@@ -1,6 +1,9 @@
 <html>
 <head>
 	<meta name="copyright" content="ALPAX Software Solutions" />
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="assets/css/color.css" />
+	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/smart_wizard.css" />
 	<link rel="stylesheet" type="text/css" href="assets/css/smart_wizard_theme_arrows.min.css" />
 	<link rel="stylesheet" type="text/css" href="assets/css/smart_wizard_theme_circles.min.css" />
@@ -66,8 +69,8 @@
 	p{
 		margin-bottom: 0.5rem;
 	}
+	
 </style>
-
 </head>
 
 <body>
@@ -89,3 +92,18 @@
 
 </div>
 </body>
+<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.smartWizard.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/popper.min.js"></script>
+<script type="text/javascript" src="assets/js/validator.min.js"></script>
+<script type="text/javascript" src="assets/js/select2.min.js"></script>
+<script type="text/javascript" src="assets/js/pdfmake.min.js"></script>
+<script type="text/javascript" src="assets/js/vfs_fonts.js"></script>
+<script type="text/javascript" src="assets/js/datatables.min.js"></script>
+<script type="text/javascript" src="assets/js/chart.min.js"></script>
+<script type="text/javascript">
+	console.log($("input[type='text']"));
+	$("input").attr("readonly","readonly");
+</script>
+</html>

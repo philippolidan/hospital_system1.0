@@ -1,4 +1,4 @@
-<?php include('assets/parts/header.php'); ?>
+<?php include('assets/parts/header.php'); include('assets/parts/session_page.php');?>
 
 <div class="wrapper">
 
@@ -208,3 +208,10 @@
 </div>
 
 <?php include('assets/parts/scripts.php'); ?>
+
+<script type="text/javascript">
+	
+	$("#doctor").addClass("active");
+	$("#patient").removeClass("active");
+		
+</script>

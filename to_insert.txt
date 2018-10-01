@@ -3,17 +3,423 @@ db.contacts.find().Count()+1
 
 
 //symptom
-db.symptom.insert([{"symptom_id":"1", "name":"Abdominal Pain"},{"symptom_id":"2", "name":"Constipation"},{ "symptom_id":"3", "name":"Infection"}])
+db.symptom.insert([
+
+{"symptom_id":"1", "name":"Abdominal Pain"},
+{"symptom_id":"2", "name":"Constipation"},
+{"symptom_id":"4", "name":"Puncture"},
+{"symptom_id":"5", "name":"Burn"},
+{"symptom_id":"6", "name":"Gunshot Wound/s"},
+{"symptom_id":"7", "name":"Laceration"},
+{"symptom_id":"8", "name":"Fracture"},
+{"symptom_id":"9", "name":"Dislocation"},
+
+])
 
 //hospital bed
 db.bed_list.insert([{"bed_no":"0001","ward_no":"241","floor":"1st Floor","status":"Vacant"},{"bed_no":"0002","ward_no":"532","floor":"2nd Floor","status":"Vacant"},{"bed_no":"0003","ward_no":"331","floor":"3rd Floor","status":"Vacant"},{"bed_no":"0004","ward_no":"675","floor":"4th Floor","status":"Vacant"}])
 
 //question
-db.question_list.insert([{"symptom_id":"1","question":"Rate the pain","type":"rate"},{"symptom_id":"1","question":"Last Meal","type":"text"},{"symptom_id":"1","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"1","question":"Acidic","type":"y/n"},
-{"symptom_id":"2","question":"When your symptoms started and how long they’ve been going on?","type":"text"},{"symptom_id":"2","question":"Having pain in your stomach?","type":"y/n"},{"symptom_id":"2","question":"Vomitting/Nauseous","type":"y/n"},{"symptom_id":"2","question":"How much you’ve been eating or drinking?","type":"rate"},{"symptom_id":"2","question":" Have you recently gained or lost weight?","type":"y/n"},{"symptom_id":"2","question":" Have you recently gained or lost weight","type":"y/n"},{"symptom_id":"2","question":"Do you have to strain to poop?","type":"y/n"}])
+db.question_list.insert([
+
+{"symptom_id":"1","question":"Rate the pain","type":"rate"},
+{"symptom_id":"1","question":"Last Meal","type":"text"},
+{"symptom_id":"1","question":"Vomitting/Nauseous","type":"y/n"},
+{"symptom_id":"1","question":"Acidic","type":"y/n"},
+
+{"symptom_id":"2","question":"When your symptoms started and how long they’ve been going on?","type":"text"},
+{"symptom_id":"2","question":"Having pain in your stomach?","type":"y/n"},
+{"symptom_id":"2","question":"Vomitting/Nauseous","type":"y/n"},
+{"symptom_id":"2","question":"How much you’ve been eating or drinking?","type":"rate"},
+{"symptom_id":"2","question":" Have you recently gained or lost weight?","type":"y/n"},
+{"symptom_id":"2","question":" Have you recently gained or lost weight","type":"y/n"},
+{"symptom_id":"2","question":"Do you have to strain to poop?","type":"y/n"},
+
+	{
+		"symptom_id":"4",
+		"question":"Width",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"4",
+		"question":"Length",
+		"type":"text",
+	},
+
+	{
+		"symptom_id":"4",
+		"question":"Depth",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"4",
+		"question":"Is there a blood drainage?",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"4",
+		"question":"Tenderness",
+		"type":"rate"
+	},
+
+	{
+		"symptom_id":"4",
+		"question":"Swelling",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"4",
+		"question":"Level of Contamination",
+		"type": "dropdown",
+		"data" : ["Clean","Contaminated","Infected","Colonized"]
+	},
+
+	{
+		"symptom_id":"4",
+		"question":"Is the foreign object is still intact?",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"5",
+		"question":"Level of Contamination",
+		"type": "dropdown",
+		"data" :["Clean","Contaminated","Infected","Colonized"]
+	},
+
+	{
+		"symptom_id":"5",
+		"question":"Degree of Burn",
+		"type": "dropdown",
+		"data":["First Degree","Second Degree","Third Degree"]
+	},
+
+	{
+		"symptom_id":"5",
+		"question":"Cause of Burn",
+		"type": "dropdown",
+		"data": ["Chemical","Electrical","Thermal"]
+	},
+
+	{
+		"symptom_id":"5",
+		"question":"Tenderness",
+		"type":"rate"
+	},
+
+	{
+		"symptom_id":"6",
+		"question":"Body Region Penetrated",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"6",
+		"question":"Exit Wounds",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"6",
+		"question":"Penetrated Trauma Injury",
+		"type":"text",
+	},
+
+	{
+		"symptom_id":"6",
+		"question":"Is there any signs of deformity?",
+		"type":"y/n",
+	},
+
+	{
+		"symptom_id":"6",
+		"question":"Tenderness",
+		"type":"rate"
+	},
+
+	{
+		"symptom_id":"6",
+		"question":"Penetration Dimension",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"7",
+		"question":"Width",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"7",
+		"question":"Length",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"7",
+		"question":"Depth",
+		"type":"text"
+	},
+
+	{
+		"symptom_id":"7",
+		"question":"Tenderness",
+		"type":"rate"
+	},
+
+	{
+		"symptom_id":"7",
+		"question":"Is there a blood drainage?",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"8",
+		"question":"Is there any signs of deformity?",
+		"type":"y/n",
+	},
+
+	{
+		"symptom_id":"8",
+		"question":"Tenderness",
+		"type":"rate"
+	},
+
+	{
+		"symptom_id":"8",
+		"question":"Sensory Disturbances",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"8",
+		"question":"Is there any bone protruding through the skin?",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"8",
+		"question":"Is there any heavy bleeding at the injury site?",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"9",
+		"question":"Is there any signs of deformity?",
+		"type":"y/n",
+	},
+
+	{
+		"symptom_id":"9",
+		"question":"Swelling",
+		"type":"y/n",
+	},
+
+	{
+		"symptom_id":"9",
+		"question":"Is there any bruise or contusion at the dislocated site?",
+		"type":"y/n",
+	},
+
+	{
+		"symptom_id":"9",
+		"question":"Tenderness",
+		"type":"rate"
+	},
+
+	{
+		"symptom_id":"9",
+		"question":"Sensory Disturbances",
+		"type":"y/n"
+	},
+
+	{
+		"symptom_id":"9",
+		"question":"Inability to move the joint?",
+		"type":"y/n"
+	},
+
+])
 
 //test list
-db.test_list.insert([{"test_id":"1","name":"Fecalysis","price":"500","description":"A fecalysis is a series of tests done on a stool (feces) sample to help diagnose certain conditions affecting the digestive tract. These conditions can include infection (such as from parasites, viruses, or bacteria), poor nutrient absorption, or cancer."},{"test_id":"2","name":"Urinalysis","price":"500","description":"A test that is done in order to analyze urine. Because toxins and excess fluid are removed from the body in urine, analysis of urine can provide important health clues. Urinalysis can be used to detect certain diseases, such as diabetes, gout, and other metabolic disorders, as well as kidney disease. It can also be used to uncover evidence of drug abuse. Accurate urinalysis may require a 'clean catch' of urine. Before a person gives a urine sample, he or she should drink plenty of fluids and wait until 1 or 2 seconds into the flow of urine before catching the urine in the receptacle. For some tests it is important to get the first urine of the day, which contains the highest concentration of toxins and other substances to be analyzed. For other tests, a 24-hour collection of urine may be needed."}])
+db.test_list.insert([
+
+{"test_id":"1","name":"Fecalysis","price":"500","description":"A fecalysis is a series of tests done on a stool (feces) sample to help diagnose certain conditions affecting the digestive tract. These conditions can include infection (such as from parasites, viruses, or bacteria), poor nutrient absorption, or cancer."},
+
+{"test_id":"2","name":"Urinalysis","price":"500","description":"A test that is done in order to analyze urine. Because toxins and excess fluid are removed from the body in urine, analysis of urine can provide important health clues. Urinalysis can be used to detect certain diseases, such as diabetes, gout, and other metabolic disorders, as well as kidney disease. It can also be used to uncover evidence of drug abuse. Accurate urinalysis may require a 'clean catch' of urine. Before a person gives a urine sample, he or she should drink plenty of fluids and wait until 1 or 2 seconds into the flow of urine before catching the urine in the receptacle. For some tests it is important to get the first urine of the day, which contains the highest concentration of toxins and other substances to be analyzed. For other tests, a 24-hour collection of urine may be needed."},
+
+{"test_id":"3", "name":"Kidney, Ureter and Bladder X-ray", "price":"500", "description":"Imaging test that uses small amounts of radiation to produce pictures of the organs, tissues, and bones of the body."},
+
+{"test_id":"4", "name":"Chest X-ray", "price":"500", "description":"Imaging test that uses small amounts of radiation to produce pictures of the organs, tissues, and bones of the body."},
+
+{"test_id":"5", "name":"Lungs X-ray", "price":"500", "description":"Imaging test that uses small amounts of radiation to produce pictures of the organs, tissues, and bones of the body."},
+
+{"test_id":"6", "name":"Abdomen X-ray", "price":"500", "description":"Imaging test that uses small amounts of radiation to produce pictures of the organs, tissues, and bones of the body."},
+
+{"test_id":"7", "name":"Complete Blood Count (CBC)", "price":"500", "description":"A blood test used to evaluate your overall health and detect a wide range of disorders, including anemia, infection and leukemia. A complete blood count test measures several components and features of your blood, including: Red blood cells, which carry oxygen."},
+
+{"test_id":"8", "name":"Computed Tomography Scan (CT Scan)", "price":"500", "description":"An X-ray image made using computerized axial tomography."},
+
+{"test_id":"9", "name":"Magnetic Resonance Imaging Scan (MRI Scan)", "price":"500", "description":"A diagnostic technique that uses magnetic fields and radio waves to produce a detailed image of the body's soft tissue and bones. An MRI images the spine by using a magnet that goes around the body to excite hydrogen atoms."},
+
+{"test_id":"10", "name":"Sonography (Ultrasound)", "price":"500", "description":"A diagnostic technique that uses magnetic fields and radio waves to produce a detailed image of the body's soft tissue and bones. An MRI images the spine by using a magnet that goes around the body to excite hydrogen atoms."},
+
+{"test_id":"11", "name":"Electrocardiogram (ECG)", "price":"500", "description":"An ECG is a simple, noninvasive procedure wherein electrodes are placed on the skin of the checst and connected in a specific order to a machine which measures electrical activity all over the heart."},
+
+{"test_id":"12", "name":"Fasting Blood Sugar (FBS Test / Glucose Test)", "price":"500", "description":"A test which measures the glucose blood level."}
+
+])
+
+//create collection of complete_blood_count
+
+db.complete_blood_count.insert([
+	{
+		"wbc_count":"",
+		"rbc_count":"",
+		"hemoglobin":"",
+		"hematocrit":"",
+		"mcv":"",
+		"mchc":"",
+		"rdw":"",
+		"platelets":"",
+		"neutrophils":"",
+		"lymphs":"",
+		"monocytes":"",
+		"eos":"",
+		"baso":"",
+		"immature_granulocytes":"",
+		"immature_grans":"",
+		"interpretation":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of kidney ureter and bladder x-ray
+db.kud_x_ray.insert([
+	{
+		"x_ray_image":"",
+		"interpretation":"",
+		"findings":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of chest x-ray
+
+db.chest_x_ray.insert([
+	{
+		"x_ray_image":"",
+		"interpretation":"",
+		"findings":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of lungs x-ray
+
+db.lungs_x_ray.insert([
+	{
+		"x_ray_image":"",
+		"interpretation":"",
+		"findings":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of abdomen x-ray
+
+db.abdomen_x_ray.insert([
+	{
+		"x_ray_image":"",
+		"indication":"",
+		"comparison":"",
+		"interpretation":"",
+		"findings":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of ct scan
+db.ct_scan.insert([
+	{
+		"ct_scan_image":"",
+		"indication":"",
+		"comparison":"",
+		"technique":"",
+		"findings":"",
+		"impression":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of mri scan
+db.mri_scan.insert([
+	{
+		"mri_scan_image":"",
+		"indication":"",
+		"comparison":"",
+		"technique":"",
+		"impression":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of ultrasound
+db.ultrasound.insert([
+	{
+		"ultrasound_image":"",
+		"body_parts":"",
+		"findings":"",
+		"conclusions":"",
+		"impression":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of electrocardiogram
+db.electrocardiogram.insert([
+	{
+		"ecg_image":"",
+		"findings":"",
+		"conclusions":"",
+		"impression":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
+
+//create collection of fasting_blood_sugar
+db.fasting_blood_sugar.insert([
+	{
+		"result":"",
+		"flag":"",
+		"impression":"",
+		"date_completed":"",
+		"status":"",
+		"labtest_id":""
+	}
+])
 
 ////roles
 db.roles.insert([

@@ -1,5 +1,6 @@
-<?php include('assets/parts/header.php'); 
+<?php include('assets/parts/header.php'); include('assets/parts/session_page.php');
 $db = new Database;
+echo $_SERVER['QUERY_STRING'];
 ?>
 <div class="col-lg-12">
 	<div class="row">
@@ -19,65 +20,400 @@ $db = new Database;
 				</ul>
 
 				<div style="padding: 10px;">
-					<div id="step-1" class="" data-toggle="validator">
-						<form id="form-step-1" >
+					<div id="step-1" class="">
+						<form id="form-step-1">
 
-						<input type="hidden" name="to-d-r" value="0">
-						<input type="text" class="d-none" name="patient_oid">
-						<div class="col-lg-12 mt-4 mb-4">
+							<input type="hidden" name="to-d-r" value="0">
+							<input type="text" class="d-none" name="patient_oid">
+							<input type="hidden" class="d-none" name="patient_type">
+							<input type="hidden" class="d-none" name="bill_checker" value="0">
+							<input type="hidden" class="d-none" name="er_id">
+							<div class="col-lg-12 mt-4 mb-4">
 
-							<div class="d-flex">
-								<div>
-									<h3>Patient Registration</h3>
+								<div class="d-flex">
+									<div>
+										<h3>Patient Registration</h3>
+									</div>
+
+									<div class="ml-auto" style="text-align: right">
+										<h3 id="code_status" class="" style="width: 200px; height: 30px;"></h3>
+									</div>
 								</div>
 
-								<div class="ml-auto" style="text-align: right">
-									<h3 id="code_status" class="" style="width: 200px; height: 30px;"></h3>
+								<hr>
+								<div class="row mt-2 mb-2">
+									<div class="col-lg-10 col-md-10 col-xs-10 col-sm-10">
+										<div class="form-group">
+											<select name='patient_list' class="select2 to-d required select3" style="width: 100%;">
+												<option disabled selected value>Select Patient</option>
+												<option value="new">New Patient</option>
+												<?php
+												foreach ($db->getPatients() as $patient) { ?>
+													<option value="<?php echo (string)$patient->_id ?>"><?php echo $patient->lname.", ".$patient->fname." ".$patient->mname ?></option>
+												<?php }
+												?>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-2 col-md-2 col-xs-2 col-sm-2">
+										<div class="form-group">
+											<button id="add_patient" class="btn btn-primary btn-sm btn-block to-d" type="button">Add</button>
+											<button id="remove_patient" class="btn btn-danger btn-sm btn-block to-d" type="button">Remove</button>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+										<h6><strong></strong></h6>
+
+										<div class="row">
+
+											<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+												<div class="form-group" style="text-align: left">
+													<label>Patient No.</label>
+													<h6><strong><span id="patient_no"><?php echo $db->getPatientNumber()?></span></strong></h6>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+												<div class="form-group">
+													<label>Emergency Code</label>
+													<select name="emergency_code" class="select2 to-d to-v" style="width: 100%;" id="ecode"  required>
+														<option disabled selected>Select Emergency Code</option>
+														<optgroup label="Color Codes">
+															<option value="amber" id="amber">Amber Alert</option>
+															<option value="blue" id="blue">Blue</option>
+															<option value="grey" >Grey</option>
+															<option value="orange">Orange</option>
+															<option value="pink">Pink</option>
+															<option value="red" >Red</option>
+															<option value="silver">Silver</option>
+														</optgroup>
+
+														<optgroup label="Other Codes">
+															<option value="clear">Code Clear</option>
+															<option value="external">External Triage</option>
+															<option value="internal">Internal Triage</option>
+															<option value="rapid">Rapid Response Team</option>
+														</optgroup>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+												<div class="d-flex">
+													<div>Assign Ward & Bed Number</div>
+
+													<div class="ml-auto">
+														<button class="btn btn-primary btn-sm" data-toggle="modal" onclick="getBed()" data-target="#m_select_patient_bed" type="button"><i class="fas fa-plus"></i></button>
+														<button class="btn btn-danger btn-sm d-none" data-toggle="modal" id="removeBed" onclick="removeBed()" type="button"><i class="fas fa-times"></i></button>
+													</div>
+
+													<input type="hidden" name="bed_no" value="n/a">
+												</div>
+
+												<div class="form-group">
+													<p id="bed_desc">No Bed Assignment</p>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+
+										<hr>
+
+										<h6><strong>Personal Information</strong></h6>
+
+										<div class="row">
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<input type="text" class="form-control form-control1 to-v" name="lname" placeholder="Last Name" readonly>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<input type="text" class="form-control form-control1 to-v" name="fname" placeholder="First Name" readonly>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<input type="text" class="form-control form-control1" name="mname" placeholder="Middle Name" readonly>
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Date of Birth</label>
+											<input type="date" class="form-control form-control1 to-v" name="bdate" readonly>
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<label>Sex</label>
+										<div class="row">
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-check">
+													<input class="form-check-input to-d" type="radio" name="sex" id="sex1" value="male" disabled>
+													<label class="form-check-label" for="sex1">
+														Male
+													</label>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-check">
+													<input class="form-check-input to-d" type="radio" name="sex" id="sex2" value="female" checked disabled>
+													<label class="form-check-label" for="sex2">
+														Female
+													</label>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<hr>
+
+										<h6><strong>Contact Infomation</strong></h6>
+
+										<div class="row">
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-group">
+													<label>Address</label>
+													<textarea class="form-control form-control1 to-v" name="address" readonly></textarea>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Contact Number</label>
+													<input type="text" name="mobile_no" class="form-control to-v" readonly>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<hr>
+
+										<h6><strong>Health Maintenance Organization (HMO)</strong></h6>
+
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Company Name</label>
+													<input type="text" class="form-control" name="cname" readonly>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Account Number</label>
+													<input type="text" class="form-control" name="accnumber" readonly>
+												</div>
+											</div>
+
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+												<div class="form-group">
+													<label>Card Number</label>
+													<input type="text" class="form-control" name="cardno" readonly>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
 								</div>
 							</div>
 
-							<hr>
+						</form>
+					</div>
 
-							<div class="row">
+					<div id="step-2" class="">
+						<form id="form-step-2">
 
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-									<h6><strong></strong></h6>
+							<input type="hidden" name="assessment_date" value="<?php echo date("F d, Y h:i A")?>">
+							<div class="col-lg-12 mt-4 mb-4">
 
-									<div class="row">
+								<h3 class="border-bottom border-gray pb-2">Triage Assessment</h3>
 
-										<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
-											<div class="form-group" style="text-align: left">
-												<label>Patient No.</label>
-												<h6><strong><span id="patient_no"><?php echo $db->getPatientNumber()?></span></strong></h6>
-											</div>
+								<div class="row">
+
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="form-group">
+											<label>Patient Name</label>
+											<input type="text" class="form-control form-control1" name="pname" readonly>
 										</div>
+									</div>
 
-										<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
-											<div class="form-group">
-												<label>Emergency Code</label>
-												<select name="emergency_code" class="select2 to-d" style="width: 100%;" required>
-													<option disabled value selected>Select Emergency Code</option>
-													<optgroup label="Color Codes">
-														<option value="amber">Amber Alert</option>
-														<option value="blue">Blue</option>
-														<option value="grey">Grey</option>
-														<option value="orange">Orange</option>
-														<option value="pink">Pink</option>
-														<option value="red">Red</option>
-														<option value="silver">Silver</option>
-													</optgroup>
-
-													<optgroup label="Other Codes">
-														<option value="clear">Code Clear</option>
-														<option value="external">External Triage</option>
-														<option value="internal">Internal Triage</option>
-														<option value="rapid">Rapid Response Team</option>
-													</optgroup>
-												</select>
-											</div>
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="form-group">
+											<label>Assessment Date</label>
+											<input type="text" class="form-control form-control1" name="adate" value="<?php echo date("F d, Y h:i A")?>" readonly>
 										</div>
+									</div>
 
-										<div class="col-lg-4 col-md-4 col-xs-4 col-sm-4">
+								</div>
+
+								<hr>
+
+								<div class="row">
+
+									<div class="col-lg-12">
+										<h6><strong>Vital Signs</strong></h6>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Blood Pressure</label>
+											<input type="text" class="form-control form-control1 to-v" name="bpressure">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Breathing</label>
+											<input type="text" class="form-control form-control1 to-v" name="breathing">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Pulse</label>
+											<input type="text" class="form-control form-control1 to-v" name="pulse">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+										<div class="form-group">
+											<label>Temperature</label>
+											<input type="text" class="form-control form-control1 to-v" name="temperature">
+										</div>
+									</div>
+								</div>
+
+								<hr>
+
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="row">
+
+											<div class="col-lg-12">
+												<h6><strong>Allergies</strong></h6>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="allergies" id="a_none" value="no" checked>
+													<label class="form-check-label" for="a_none">No</label>
+												</div>
+
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="allergies" value="yes" id="a_yes">
+													<label class="form-check-label" for="a_yes">Yes</label>
+												</div>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-group">
+													<label class="form-check-label" for="a_content">Name</label>
+													<textarea class="form-control form-control1" name="a_name"></textarea>
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+										<div class="row">
+
+											<div class="col-lg-12">
+												<h6><strong>Medication</strong></h6>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="medication" value="no" id="m_none" checked>
+													<label class="form-check-label" for="m_none">No</label>
+												</div>
+
+												<div class="form-check">
+													<input type="radio" class="form-check-input to-d" name="medication" value="yes" id="m_yes">
+													<label class="form-check-label" for="m_yes">Yes</label>
+												</div>
+											</div>
+
+											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+												<div class="form-group">
+													<label class="form-check-label" for="m_content">Name</label>
+													<textarea class="form-control form-control1" name="m_name"></textarea>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+
+					<div id="step-3" class="" data-toggle="validator">
+						<form id="form-step-3" >
+
+							<div class="col-lg-12 mt-4 mb-4">
+								<h3 class="border-bottom border-gray pb-2">Symptoms</h3>
+
+								<div class="row mt-2 mb-2">
+									<div class="col-lg-10 col-md-10 col-xs-10 col-sm-10">
+										<div class="form-group">
+											<select name='symptom' class="select2 to-d required select3 to-v" style="width: 100%;">
+												<option disabled selected value>Please select a symptom</option>
+												<?php
+												foreach ($db->getSymptoms() as $symptom) { ?>
+													<option value="<?php echo $symptom->symptom_id ?>"><?php echo $symptom->name ?></option>
+												<?php }
+												?>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-2 col-md-2 col-xs-2 col-sm-2">
+										<div class="form-group">
+											<button id="btn_add_symptoms" class="btn btn-primary btn-sm btn-block to-d" type="button">Add</button>
+										</div>
+									</div>
+								</div>
+								<div id="question" class="row">
+
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div id="step-4" class="" data-toggle="validator">
+
+						<form id="form-step-4"> 
+							<div class="col-lg-12 mt-4 mb-4">
+
+								<div class="d-flex border-bottom border-gray mb-4">
+									<div><h3 class="pb-2">Diagnostic Tests</h3></div>
+
+									<!-- <div class="ml-auto">
+										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 											<div class="d-flex">
 												<div>Assign Ward & Bed Number</div>
 
@@ -86,331 +422,86 @@ $db = new Database;
 													<button class="btn btn-danger btn-sm d-none to-d" data-toggle="modal" id="removeBed" onclick="removeBed()" type="button"><i class="fas fa-times"></i></button>
 												</div>
 
-													<input type="hidden" name="bed_no" value="n/a">
+												<input type="hidden" name="bed_no" value="n/a">
 											</div>
 
 											<div class="form-group">
 												<p id="bed_desc">No Bed Assignment</p>
 											</div>
 										</div>
-
-									</div>
+									</div> -->
 								</div>
 
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 
-									<hr>
+										<!-- <h6>Recommended Tests</h6> -->
 
-									<h6><strong>Personal Information</strong></h6>
-
-									<div class="row">
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-group">
-												<input type="text" class="form-control" name="lname" placeholder="Last Name">
-											</div>
-										</div>
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-group">
-												<input type="text" class="form-control" name="fname" placeholder="First Name">
-											</div>
-										</div>
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-group">
-												<input type="text" class="form-control" name="mname" placeholder="Middle Name">
-											</div>
-										</div>
-
-									</div>
-
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Date of Birth</label>
-										<input type="date" class="form-control" name="bdate">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<label>Sex</label>
-									<div class="row">
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-check">
-												<input class="form-check-input to-d" type="radio" name="sex" id="sex1" value="male" >
-												<label class="form-check-label" for="sex1">
-													Male
-												</label>
-											</div>
-										</div>
-
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-											<div class="form-check">
-												<input class="form-check-input to-d" type="radio" name="sex" id="sex2" value="female" checked>
-												<label class="form-check-label" for="sex2">
-													Female
-												</label>
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Address</label>
-										<textarea class="form-control" name="address"></textarea>
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-						</form>
-					</div>
-
-					<div id="step-2" class="" data-toggle="validator">
-						<form id="form-step-2">
-
-						<input type="hidden" name="assessment_date" value="<?php echo date("F d, Y h:i A")?>">
-						<div class="col-lg-12 mt-4 mb-4">
-
-							<h3 class="border-bottom border-gray pb-2">Triage Assessment</h3>
-
-							<div class="row">
-
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="form-group">
-										<label>Patient Name</label>
-										<input type="text" class="form-control" name="pname" readonly>
-									</div>
-								</div>
-
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="form-group">
-										<label>Assessment Date</label>
-										<input type="text" class="form-control" name="adate" value="<?php echo date("F d, Y h:i A")?>" readonly>
-									</div>
-								</div>
-
-							</div>
-
-							<hr>
-
-							<div class="row">
-
-								<div class="col-lg-12">
-									<h6><strong>Vital Signs</strong></h6>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Blood Pressure</label>
-										<input type="text" class="form-control" name="bpressure">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Breathing</label>
-										<input type="text" class="form-control" name="breathing">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Pulse</label>
-										<input type="text" class="form-control" name="pulse">
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
-									<div class="form-group">
-										<label>Temperature</label>
-										<input type="text" class="form-control" name="temperature">
-									</div>
-								</div>
-							</div>
-
-							<hr>
-
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="row">
-
-										<div class="col-lg-12">
-											<h6><strong>Allergies</strong></h6>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="allergies" id="a_none" value="no" checked>
-												<label class="form-check-label" for="a_none">No</label>
-											</div>
-
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="allergies" value="yes" id="a_yes">
-												<label class="form-check-label" for="a_yes">Yes</label>
-											</div>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-group">
-												<label class="form-check-label" for="a_content">Name</label>
-												<textarea class="form-control" name="a_name"></textarea>
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-								<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-									<div class="row">
-
-										<div class="col-lg-12">
-											<h6><strong>Medication</strong></h6>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="medication" value="no" id="m_none" checked>
-												<label class="form-check-label" for="m_none">No</label>
-											</div>
-
-											<div class="form-check">
-												<input type="radio" class="form-check-input to-d" name="medication" value="yes" id="m_yes">
-												<label class="form-check-label" for="m_yes">Yes</label>
-											</div>
-										</div>
-
-										<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											<div class="form-group">
-												<label class="form-check-label" for="m_content">Name</label>
-												<textarea class="form-control" name="m_name"></textarea>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-
-						</div>
-						</form>
-					</div>
-
-					<div id="step-3" class="" data-toggle="validator">
-						<form id="form_step-3" >
-
-						<div class="col-lg-12 mt-4 mb-4">
-							<h3 class="border-bottom border-gray pb-2">Symptoms</h3>
-
-							<div class="row mt-2 mb-2">
-								<div class="col-lg-10 col-md-10 col-xs-10 col-sm-10">
-									<div class="form-group">
-										<select name='symptom' class="select2 to-d" style="width: 100%;">
-											<option disabled selected value>Please select a symptom</option>
-											<?php
-											foreach ($db->getSymptoms() as $symptom) { ?>
-												<option value="<?php echo $symptom->symptom_id ?>"><?php echo $symptom->name ?></option>
-											<?php }
-											?>
-										</select>
-									</div>
-								</div>
-
-								<div class="col-lg-2 col-md-2 col-xs-2 col-sm-2">
-									<div class="form-group">
-										<button id="btn_add_symptoms" class="btn btn-primary btn-sm btn-block to-d" type="button">Add</button>
-									</div>
-								</div>
-							</div>
-							<div id="question" class="row">
-								
-							</div>
-						</div>
-					</form>
-					</div>
-
-					<div id="step-4" class="" data-toggle="validator">
-
-						<form id="form_step-4"> 
-						<div class="col-lg-12 mt-4 mb-4">
-
-							<h3 class="border-bottom border-gray pb-2">Diagnostic Tests</h3>
-
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-
-									<!-- <h6>Recommended Tests</h6> -->
-
-									<table class="table hover">
-										<thead>
-											<tr>
-												<th width="5%"></th>
-												<th width="75%">Name</th>
-												<th width="25%">Actions</th>
-											</tr>
-										</thead>
-
-										<tbody>
-
-											<?php
-											foreach ($db->getTests() as $test) { ?>
+										<table class="table hover" style="width: 100%"> 
+											<thead>
 												<tr>
-													<td><input type="checkbox" name="test[]" class="to-d" value="<?php echo $test->test_id ?>"></td>
-													<td><?php echo $test->name?></td>
-													<td>
-														<button class="btn btn-primary btn-sm" data-target='m_details' onclick="open_modal(this)" value="<?php echo $test->test_id ?>" type="button">Details</button>
-													</td>
+													<th width="5%"></th>
+													<th width="75%">Name</th>
+													<th width="25%">Actions</th>
 												</tr>
-											<?php }
-											?>
-										</tbody>
+											</thead>
 
-									</table>
+											<tbody>
 
+												<?php
+												foreach ($db->getTests() as $test) { ?>
+													<tr>
+														<td><input type="checkbox" name="test[]" class="to-d" value="<?php echo $test->test_id ?>"></td>
+														<td><?php echo $test->name?></td>
+														<td>
+															<button class="btn btn-primary btn-sm" data-target='m_details' onclick="open_modal(this)" value="<?php echo $test->test_id ?>" type="button">Details</button>
+														</td>
+													</tr>
+												<?php }
+												?>
+											</tbody>
+
+										</table>
+
+									</div>
 								</div>
-							</div>
 
-						</div>
-					</form>
+							</div>
+						</form>
 					</div>
 
 					<div id="step-5" class="" data-toggle="validator">
 
 						<form id="form-step-5">
 
-						<div class="col-lg-12 mt-4 mb-4">
+							<div class="col-lg-12 mt-4 mb-4">
 
-							<h3 class="border-bottom border-gray pb-2">Results</h3>
+								<h3 class="border-bottom border-gray pb-2">Results</h3>
 
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-									<table class="table hover responsive" id="tlab_test">
-										<thead>
-											<tr>
-												<th width="40%">Name</th>
-												<th>Status</th>
-												<th>Date & Time Completed</th>
-												<th>Actions</th>
-											</tr>
-										</thead>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+										<table class="table hover" id="tlab_test" style="width: 100%">
+											<thead>
+												<tr>
+													<th width="40%">Name</th>
+													<th>Status</th>
+													<th>Date & Time Completed</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
 
-										<tbody>
-										</tbody>
-									</table>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
-						</div>
-					</form>
+						</form>
 					</div>
 
 					<div id="step-6" class="" data-toggle="validator">
 						<form id="form-step-6" onsubmit="return false" >
-							<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" style="padding: 10px;">
+							<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12" style="padding: 10px;" id="to_print">
 
 								<div class="row mb-4">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -433,7 +524,7 @@ $db = new Database;
 								<hr style="margin-top: -5px;">
 
 								<!-- Patient Information -->
-								<div class="row mb-4" style="font-size: 12px;" id="to_print">
+								<div class="row mb-4" style="font-size: 12px;" >
 									<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
 										<div class="row">
 											<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
@@ -500,8 +591,6 @@ $db = new Database;
 													<thead>
 														<tr>
 															<th>Particulars</th>
-															<th>Rate</th>
-															<th>Discount</th>
 															<th class="dt-right">Amount</th>
 														</tr>
 													</thead>
@@ -526,7 +615,8 @@ $db = new Database;
 
 													<div class="ml-auto" style="text-align: right">
 														<p class="billing-patient-details font-weight-bold" id="subtotal">0.00</p>
-														<p class="billing-patient-details font-weight-bold" id="discount">0.00</p>
+														<input type="text" class="form-control text-right" name="discount" value="0.00">
+														<p class="billing-patient-details font-weight-bold d-none" id="p-discount"></p>
 														<p class="billing-patient-details font-weight-bold" id="total">0.00</p>
 													</div>
 
@@ -554,11 +644,23 @@ $db = new Database;
 <?php include('assets/modals/m_select_patient_bed.php'); ?>
 
 <script type="text/javascript">
+	var hash = window.location.hash;
+	if(hash != "#step-1"){
+		window.location = "patient_registration.php#step-1";
+	}
+	function formatColor (color) {
+		if (!color.id || color.id == "clear" || color.id == "external" || color.id == "internal" || color.id == "rapid" || color.id == "Select Emergency Code") {
+			return color.text;
+		}
+		var baseUrl = "assets/img/colors";
+		var $state = $(
+			'<span><img src="' + baseUrl + '/' + color.element.value.toLowerCase() + '.png" class="img-flag" style="width:20px; height:20px" /> ' + color.text + '</span>'
+			);
+		return $state;
+	};
 	$(document).ready(function(){
 
-		$(".table").DataTable({
-			responsive: true
-		});
+		$(".table").DataTable();
 
 		$('#billing_table').DataTable({
 			"paging":   false,
@@ -570,92 +672,199 @@ $db = new Database;
 				"emptyTable": "Empty"
 			}
 		});
-
-		$(".select2").select2();
-
+		$("#ecode").select2({"width":"100%", templateResult: formatColor});
+		$(".select3").select2({"width" :"100%"});
             // Step show event
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
                //alert("You are on step "+stepNumber+" now");
-               	if(stepPosition === 'first'){
-               		$("#prev-btn").addClass('disabled');
-	            }else if(stepPosition === 'final'){
-	               	$("#next-btn").addClass('disabled');
-	            }
-	            if(stepNumber == 5){
+               if(stepPosition === 'first'){
+               	$("#prev-btn").addClass('disabled');
+               }else if(stepPosition === 'final'){
+               	$("#next-btn").addClass('disabled');
+               }
+               if(stepNumber == 5){
                		//disable all form in step 1-4
                		$("#finish-button").removeClass("d-none");
                		$("#new").removeClass("d-none");
-	            }
-	            else{
+               	}
+               	else{
                		$(".sw-btn-prev").removeClass('d-none');
-	            	$("#prev-btn").removeClass('disabled');
-	            	$("#next-btn").removeClass('disabled');
-	            }
+               		$("#prev-btn").removeClass('disabled');
+               		$("#next-btn").removeClass('disabled');
+               	}
+               });
+
+        // Toolbar extra buttons
+        var btnFinish = $('<button id="finish-button"></button>').text('Finish')
+        .addClass('btn btn-info d-none')
+        .on('click', function(){
+        	var checker = $("input[name='bill_checker']").val();
+			if(checker == 0){
+	        	var body = "Are you sure to finish this transaction?";
+	        	var type = "y/n/1";
+	        	var button = ["yes","no"];
+	        	open_alert(body,type,button);
+	        }
+	        else{
+	        	print_button("confirm");
+	        }
+           	// $("#confirm_body").html("Are you sure to finish this transaction?");
+           	// $("input[name='confirm_type']").val("y/n/1");
+           	// $("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
+           	// $("#confirm").modal('show');
            });
-
-            // Toolbar extra buttons
-            var btnFinish = $('<button id="finish-button"></button>').text('Finish')
-            .addClass('btn btn-info d-none')
-            .on('click', function(){
-             	$("#confirm_body").html("Are you sure to finish this transaction?");
-				$("input[name='confirm_type']").val("y/n/1");
-				$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
-				$("#confirm").modal('show');
-         	});
-            var btnCancel = $('<button id="new"></button>').text('New Patient')
-            .addClass('btn btn-danger d-none')
-            .on('click', function(){ $('#smartwizard').smartWizard("reset"); location.reload(); });
+        var btnCancel = $('<button id="new"></button>').text('New Patient')
+        .addClass('btn btn-danger d-none')
+        .on('click', function(){ $('#smartwizard').smartWizard("reset"); location.reload(); });
 
 
-            // Smart Wizard
-            $('#smartwizard').smartWizard({
-            	selected: 0,
-            	keyNavigation: false,
-            	theme: 'circles',
-            	transitionEffect:'fade',
-            	showStepURLhash: true,
-            	toolbarSettings: 
-            	{
-            		toolbarPosition: 'both',
-            		toolbarButtonPosition: 'end',
-            		toolbarExtraButtons: [btnFinish, btnCancel]
-            	}
-            });
+        // Smart Wizard
+        $('#smartwizard').smartWizard({
+        	selected: 0,
+        	keyNavigation: false,
+        	theme: 'circles',
+        	transitionEffect:'fade',
+        	showStepURLhash: false,
+        	toolbarSettings: 
+        	{
+        		toolbarPosition: 'both',
+        		toolbarButtonPosition: 'end',
+        		toolbarExtraButtons: [btnFinish, btnCancel]
+        	}
         });
+    });
+    function remove_symptom(id){
+    	$("#"+id).remove();
+    }
+	function e_d(val){
+		$("input[name='lname'").attr("readonly",val);
+		$("input[name='mname'").attr("readonly",val);
+		$("input[name='fname'").attr("readonly",val);
+		$("input[name='bdate'").attr("readonly",val);
+		$("input[name='mobile_no'").attr("readonly",val);
+		$("input[name='cname'").attr("readonly",val);
+		$("input[name='accnumber'").attr("readonly",val);
+		$("input[name='cardno'").attr("readonly",val);
+		$("textarea[name='address'").attr("readonly",val);
+		$("#sex1").attr("disabled",val);
+		$("#sex2").attr("disabled",val);
+	}
+	$("#add_patient").on('click',function(){
+		var val = $("select[name='patient_list'").val();
+		if(val != null && val != "new"){
+			e_d(true);
+			var patient_oid = $("select[name='patient_list'").val();
+			$("input[name='patient_oid']").val(patient_oid);
+			$("input[name='patient_type']").val("existing");
+			$.ajax({
+				url:"assets/includes/class_handler.php",
+				type: "POST",
+				data: {id:11,patient_oid:patient_oid},
+				success: function(data){
+					var data = JSON.parse(data);
+					$("#patient_no").text(data[5]);
+					$("input[name='lname'").val(data[0]);
+					$("input[name='mname'").val(data[1]);
+					$("input[name='fname'").val(data[2]);
+					$("input[name='bdate'").val(data[6]);
+					$("input[name='mobile_no'").val(data[7]);
+					$("input[name='cname'").val(data[8]);
+					$("input[name='accnumber'").val(data[9]);
+					$("input[name='cardno'").val(data[10]);
+					$("textarea[name='address'").val(data[3]);
+					if(data[4] == "male"){
+						$("#sex1").attr("checked",true);
+						$("#sex2").removeAttr("checked");
+					}
+					else{
+						$("#sex2").attr("checked",true);
+						$("#sex1").removeAttr("checked");
+					}
+
+				}
+			});
+		}
+		else if(val == "new"){
+			$("input[name='patient_type']").val("new");
+			$("#patient_no").text("<?php echo $db->getPatientNumber()?>");
+			$("#form-step-1")[0].reset();
+			e_d(false);
+		}
+	});
+	$("#remove_patient").on('click',function(){
+		var body = "Are you sure to remove this patient?";
+		var type = "y/n/p";
+		var button = ["yes","no"];
+		open_alert(body,type,button);
+    	// $("#confirm_body").html("Are you sure to remove this patient?");
+    	// $("input[name='confirm_type']").val("y/n/p");
+    	// $("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
+    	// $("#confirm").modal('show');
+    });
 	$("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 		var tdr = $("input[name='to-d-r']").val();
-		var elmForm = $("#step-" + (stepNumber + 1));
-		elmForm.validator('validate');
-		var elmErr = elmForm.children('.has-error');
-		console.log(elmErr);
-		if(elmErr && elmErr.length > 0){
-                        // Form validation failed
-            return false;
-        }
-		if(stepNumber == 3 && stepDirection =='forward'){
-			if(tdr == 0){
-				e.preventDefault();
-				$("#confirm_body").html("Are you sure to proceed? <br> Note: After this step you can't revert or undo the information entered.");
-				$("input[name='confirm_type']").val("o/c");
-				$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"okay\")' class='btn btn-primary' value='Okay'><input type='button' onclick='confirm_click(this,\"cancel\")' class='btn btn-danger' value='Cancel'>");
-				$("#confirm").modal('show');
+		var checker = false;
+		$("#form-step-"+(stepNumber+1)+" .to-v").each(function(){
+			if($(this).val() == "" || $(this).val() == null ){
+				if($(this).hasClass("select2")){
+					$(this).parent().children().children().children().addClass("required-field");
+				}
+				else
+					$(this).addClass("required-field");
+				checker = true;
+			}
+		});
+		if(checker){
+			return false;
+		}
+		else{
+			if(stepNumber == 3 && stepDirection =='forward'){
+				if(tdr == 0){
+					e.preventDefault();
+					var body = "Are you sure to proceed? <br> Note: After this step you can't revert or undo the information entered.";
+					var type = "o/c";
+					var button = ["okay","cancel"];
+					open_alert(body,type,button);
+					// $("#confirm_body").html("Are you sure to proceed? <br> Note: After this step you can't revert or undo the information entered.");
+					// $("input[name='confirm_type']").val("o/c");
+					// $("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"okay\")' class='btn btn-primary' value='Okay'><input type='button' onclick='confirm_click(this,\"cancel\")' class='btn btn-danger' value='Cancel'>");
+					// $("#confirm").modal('show');
+				}
+			}
+			else if(stepNumber == 2 && stepDirection =='forward'){
+				if(tdr == 0){
+					e.preventDefault();
+					var body = "Does this patient needs to have a laboratory test?";
+					var type = "y/n";
+					var button = ["yes","no"];
+					open_alert(body,type,button);
+					// $("#confirm_body").html("Does this patient needs to have a laboratory test?");
+					// $("input[name='confirm_type']").val("y/n");
+					// $("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
+					// $("#confirm").modal('show');
+				}
+			}
+			else if(stepNumber == 0){
+				var fname = $("input[name='fname']").val();
+				var mname = $("input[name='mname']").val();
+				var lname = $("input[name='lname']").val();
+				$("input[name='pname']").val(lname+", "+fname+" "+mname);
 			}
 		}
-		else if(stepNumber == 2 && stepDirection =='forward'){
-			if(tdr == 0){
-				e.preventDefault();
-				$("#confirm_body").html("Does this patient needs to have a laboratory test?");
-				$("input[name='confirm_type']").val("y/n");
-				$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\"yes\")' class='btn btn-primary' value='Yes'><input type='button' onclick='confirm_click(this,\"no\")' class='btn btn-danger' value='No'>");
-				$("#confirm").modal('show');
-			}
+	});
+	// $("#form-step-1 .to-v").on('change',function(){
+	// 	if($(this).hasClass("select2")){
+	// 		$(this).parent().children().children().children().removeClass("required-field");
+	// 	}
+	// 	else
+	// 		$(this).removeClass('required-field');
+	// });
+	$("form .to-v").on('change',function(){
+		if($(this).hasClass("select2")){
+			$(this).parent().children().children().children().removeClass("required-field");
 		}
-		else if(stepNumber == 0){
-			var fname = $("input[name='fname']").val();
-			var mname = $("input[name='mname']").val();
-			var lname = $("input[name='lname']").val();
-			$("input[name='pname']").val(lname+", "+fname+" "+mname);
-		}
+		else
+			$(this).removeClass('required-field');
 	});
 	function confirm_click(object,val){
 		var confirm_type = $("input[name='confirm_type']").val();
@@ -673,14 +882,14 @@ $db = new Database;
 				$("#confirm").modal('hide');
 			}
 			else{
-				$(".form-control").prop("readonly","readonly");
+				insert(1);
+				$(".form-control1").prop("readonly","readonly");
 				$(".to-r").prop("readonly","readonly");
 				$(".to-d").prop("disabled","true");
 				$("input[name='to-d-r']").val(1);
 
 				$("li:eq(3)").addClass("disabled");
 				$("li:eq(4)").addClass("disabled");
-				insert(1);
 				//get_bill(1);
 				$("#smartwizard").smartWizard("goToStep",5);
 				$("#confirm").modal('hide');
@@ -690,7 +899,7 @@ $db = new Database;
 			if(val === "okay"){
 				insert(0);
 				//get_bill(0);
-				$(".form-control").prop("readonly","readonly");
+				$(".form-control1").prop("readonly","readonly");
 				$(".to-r").prop("readonly","readonly");
 				$(".to-d").prop("disabled","true");
 				$("#smartwizard").smartWizard("goToStep",4);
@@ -703,7 +912,18 @@ $db = new Database;
 		}
 		else if(confirm_type == "y/n/1"){
 			if(val == "yes"){
+				$("input[name='discount']").attr("readonly",false);
 				bill();
+			}
+			else{
+				$("#confirm").modal('hide');
+			}
+		}
+		else if(confirm_type == "y/n/p"){
+			if(val == "yes"){
+				$("#form-step-1")[0].reset();
+				e_d(true);
+				$("#confirm").modal('hide');
 			}
 			else{
 				$("#confirm").modal('hide');
@@ -718,29 +938,41 @@ $db = new Database;
 		var form_one = $.merge(form_one,form_two);
 		var form_two = $.merge(form_three,form_four);
 		var form_data = $.merge(form_one,form_two);
+		var patient_type = $("input[name='patient_type']").val();
 		form_data[form_data.length] = { name: "id", value: 4 };
 		form_data[form_data.length] = { name: "wlt", value: wlt};
+		form_data[form_data.length] = { name: "patient_type", value: patient_type};
+		console.log(patient_type);
+		if(patient_type == "existing"){
+			var patient_oid = $("input[name='patient_oid']").val();
+			var patient_id = $("#patient_no").text();
+			form_data[form_data.length] = { name: "patient_oid", value: patient_oid};
+			form_data[form_data.length] = { name: "patient_id", value: patient_id};
+		}
 		$.ajax({
 			url:"assets/includes/class_handler.php",
 			type: "POST",
 			data: form_data,
 			success: function(data){
 				var data = JSON.parse(data);
+				console.log(data);
 				if(data[0] == true){
 					var p_id = data[1];
+					var er_id = data[2];
 					$("input[name='patient_oid']").val(p_id);
+					$("input[name='er_id']").val(er_id);
 					get_bill(wlt);
-					result_table(p_id);
+					result_table(er_id);
 				}
 				
 			}
 		});
 	}
-	function result_table(p_id){
+	function result_table(er_id){
 		$.ajax({
 			url:"assets/includes/class_handler.php",
 			type:"POST",
-			data:{id:5,test_id:p_id},
+			data:{id:5,test_id:er_id},
 			success: function(data1){
 				var data1 = JSON.parse(data1);
 				var t = $('#tlab_test').DataTable();
@@ -827,15 +1059,37 @@ $db = new Database;
 	});
 	$("#btn_add_symptoms").on('click',function(){
 		var symptom_id = $("select[name='symptom']").val();
-		$.ajax({
-			url:"assets/includes/class_handler.php",
-			type: "POST",
-			data: {id: 1,symptom_id :symptom_id },
-			success: function(data){
-				$("#question").append(data);
-			}
-		});
+		var symptom_checker = $("#question").find("div#"+symptom_id).length;
+		if(symptom_checker == 0 && symptom_id != null){
+			//console.log($("#question").children());
+			$.ajax({
+				url:"assets/includes/class_handler.php",
+				type: "POST",
+				data: {id: 1,symptom_id :symptom_id },
+				success: function(data){
+					$("#question").append(data);
+					console.log();
+				}
+			});
+		}
+		else if(symptom_checker > 0){
+			var body = "Symptom is already selected";
+			var type = "alert";
+			var button = [];
+			open_alert(body,type,button);
+		}
+		
 	});
+	function open_alert(body,type,button=false){
+		$("#confirm_body").html(body);
+		$("input[name='confirm_type']").val(type);
+		if(button.length > 0)
+			$("#confirm_footer").html("<input type='button' onclick='confirm_click(this,\""+button[0]+"\")' class='btn btn-primary' value='"+button[0].charAt(0).toUpperCase()+ button[0].slice(1)+"'><input type='button' onclick='confirm_click(this,\""+button[1]+"\")' class='btn btn-danger' value='"+button[1].charAt(0).toUpperCase()+ button[1].slice(1)+"'>");
+		$("#confirm").modal('show');
+		if(type == "alert"){
+			setTimeout(function(){$("#confirm").modal('hide');},1000);
+		}
+	}
 	function open_modal(object){
 		var val = $(object).val();
 		var type = null;
@@ -910,14 +1164,16 @@ $db = new Database;
 	});
 	function get_bill(wlt){//with labtest
 		var patient_oid = $("input[name='patient_oid']").val();
+		var er_id = $("input[name='er_id']").val();
 		console.log($("input[name='to-d-r']").val());
 		console.log(patient_oid);
 		$.ajax({
 			url:"assets/includes/class_handler.php",
 			type: "POST",
-			data: {id:8,patient_oid:patient_oid},
+			data: {id:8,patient_oid:patient_oid,er_id: er_id},
 			success: function(data){
 				var data = JSON.parse(data);
+				console.log(data);
 				$("#b_pname").text(data[0]);
 				$("#b_address").text(data[1]);
 				$("#b_assessment").text(data[2]);
@@ -935,10 +1191,10 @@ $db = new Database;
 				}
 				var t = $('#billing_table').DataTable();
 				t.clear().draw();
-				t.row.add(["Doctor's Fee","250.00","<input type='text' class='form-control' value='0.00'>","250.00"]).draw(false);
+				t.row.add(["Doctor's Fee","250.00"]).draw(false);
 				console.log(data[8]);
 				data[8].forEach(function(d){
-					t.row.add([d[0],d[1],"<input type='text' class='form-control' value='0.00'>",d[1]]).draw(false);
+					t.row.add([d[0],d[1]]).draw(false);
 				});
 				// for(var i = 0; i<data[8][0].length;i++){
 
@@ -948,26 +1204,39 @@ $db = new Database;
 			}
 		});
 	}
+	$(".bill_input").on('change',function(){
+		$(this).val($(this).val());
+	});
 	function bill(){
-		var subtotal = $("#subtotal").text();
-		var discount = $("#discount").text();
-		var total = $("#total").text();
-		var patient_oid = $("input[name='patient_oid']").val();
-		$.ajax({
-			url:"assets/includes/class_handler.php",
-			type: "POST",
-			data: {id:9,subtotal:subtotal,discount:discount,total:total,patient_oid:patient_oid},
-			success: function(data){
-				if(data == true){
-					print_button("confirm");
+		var checker = $("input[name='bill_checker']").val();
+		if(checker == "0"){
+			var subtotal = $("#subtotal").text();
+			var discount = $("input[name='discount']").val();
+			var total = $("#total").text();
+			var patient_oid = $("input[name='patient_oid']").val();
+			$.ajax({
+				url:"assets/includes/class_handler.php",
+				type: "POST",
+				data: {id:9,subtotal:subtotal,discount:discount,total:total,patient_oid:patient_oid},
+				success: function(data){
+					console.log(data);
+					if(data == true){
+						 $("input[name='bill_checker']").val(1);
+						print_button("confirm");
+					}
 				}
-			}
-		});
+			});
+		}
+		else{
+			print_button("confirm");
+		}
+		
 	}
 	function print_button(modal) {
 		$("#"+modal).modal("hide");
+		$("input[name='discount']").addClass("d-none");
+		$("#p-discount").removeClass("d-none");
 		var print_data = $(document).find('#to_print').html();
-
 		if (print_data != "" || !isNaN(print_data))
 		{
 			var mapForm = document.createElement("form");
@@ -997,26 +1266,23 @@ $db = new Database;
 	}
 	function calculate(){
 		var subtotal = 0.00;
-		var discount = 0.00;
+		var discount = $("input[name='discount']").val();
+		$("#p-discount").text(parseFloat(discount).toFixed(2));
 		$('#billing_table tr').each(function() {
-			var dsc = parseFloat($(this).find("td input[type='text']").val());
-			if(isNaN(dsc))
-				dsc = 0.00;
-			discount = discount + dsc;
 			var st = parseFloat($(this).find("td").eq(1).html());
 			if(isNaN(st))
 				st = 0.00;
 			subtotal = subtotal + st;
-			var amnt = st - dsc;
+			var amnt = st - parseFloat(discount);
 			$(this).find("td").eq(3).html(amnt.toFixed(2))
 		});
 		$("#subtotal").text(parseFloat(subtotal).toFixed(2));
-		$("#discount").text(parseFloat(discount).toFixed(2));
+		//$("#input[name='discount']").text(parseFloat(discount).toFixed(2));
 		var total = subtotal - discount;
 		$("#total").text(parseFloat(total).toFixed(2));
 	}
-	$("#billing_table").on("change", "input", function() {
-		// console.log($(this).val());
+	$("input[name='discount']").on("change", function() {
+		console.log($(this).val());
 		calculate();
 	});
 	function toFloat(x) {
@@ -1053,42 +1319,43 @@ $db = new Database;
 	function selectBed(data){
 		var data = data.split(",");
 			//data[0] = bed no, data[1] = ward no, data[2] = floor, data[3] = status
-		$("input[name='bed_no'").val(data[0]);
-		$("#bed_desc").html("Bed No: "+data[0]+"<br/>Ward No: "+data[1]+"<br/>Floor: "+data[2]);
-		$("#bill_bed_no").text(data[0]);
-		$("#bill_ward_no").text(data[1]);
-		$("#m_select_patient_bed").modal('hide');
-		$("#removeBed").removeClass('d-none');
-	}
-	function removeBed(){
-		$("input[name='bed_no'").val('n/a');
-		$("#removeBed").addClass('d-none');
-		$("#bed_desc").html("No Bed Assignment");
-		$("#bill_bed_no").text("");
-		$("#bill_ward_no").text("");
-	}
-	$("#test_submit").on("click", function(){
-		var test_value = [];
-		$("input[name='test_value[]']").each(function(){
-			test_value.push($(this).val());
-		});
-		var interpretation = $("textarea[name='interpretation']").val();
-		var labtest_id = $("input[name='labtest_id']").val();
-		var type = $("input[name='test_type']").val();
-		test_value.push(interpretation,labtest_id,type);
-		$.ajax({
-			url:"assets/includes/class_handler.php",
-			type: "POST",
-			data: {id:7, test_value : test_value },
-			success: function(data){
-				var data = JSON.parse(data);
-				if(data[0] == true){
-					$("#m_test_result").modal('hide');
-					result_table(data[1]);
+			$("input[name='bed_no'").val(data[0]);
+			$("#bed_desc").html("Bed No: "+data[0]+"<br/>Ward No: "+data[1]+"<br/>Floor: "+data[2]);
+			$("#bill_bed_no").text(data[0]);
+			$("#bill_ward_no").text(data[1]);
+			$("#m_select_patient_bed").modal('hide');
+			$("#removeBed").removeClass('d-none');
+		}
+		function removeBed(){
+			$("input[name='bed_no'").val('n/a');
+			$("#removeBed").addClass('d-none');
+			$("#bed_desc").html("No Bed Assignment");
+			$("#bill_bed_no").text("");
+			$("#bill_ward_no").text("");
+		}
+		$("#test_submit").on("click", function(){
+			var test_value = [];
+			$("input[name='test_value[]']").each(function(){
+				test_value.push($(this).val());
+			});
+			var interpretation = $("textarea[name='interpretation']").val();
+			var labtest_id = $("input[name='labtest_id']").val();
+			var er_id = $("input[name='er_id']").val();
+			var type = $("input[name='test_type']").val();
+			test_value.push(interpretation,labtest_id,type);
+			$.ajax({
+				url:"assets/includes/class_handler.php",
+				type: "POST",
+				data: {id:7, test_value : test_value },
+				success: function(data){
+					var data = JSON.parse(data);
+					if(data[0] == true){
+						$("#m_test_result").modal('hide');
+						result_table(er_id);
+					}
 				}
-			}
+			});
 		});
-	});
 	</script>
 
 	</html>
